@@ -1,7 +1,7 @@
 // File: src/utils/tarotDeck.js
-const chars = require('../data/characters'); // Importa il file creato sopra
+import chars from '../data/characters.js';
 
-module.exports = [
+export default [
     { number: 0, char: chars.igor, meaning: "Il potere infinito delle possibilità. Sei libero di plasmare il tuo futuro." },
     { number: 1, char: chars.mona, meaning: "Non sottovalutarmi! Trasforma i tuoi desideri in azione concreta." },
     { number: 2, char: chars.queen, meaning: "Analizza la situazione con calma. La vera forza risiede nell'intelletto." },

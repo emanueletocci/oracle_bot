@@ -1,6 +1,11 @@
-const winston = require('winston');
-require('winston-daily-rotate-file');
-const path = require('path');
+import winston from 'winston';
+import 'winston-daily-rotate-file';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Ricostruzione delle variabili globali per ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define log format for the Console (colored and simple)
 const consoleFormat = winston.format.printf(({ level, message, timestamp }) => {
@@ -49,4 +54,4 @@ const logger = winston.createLogger({
   ],
 });
 
-module.exports = logger;
+export default logger;

@@ -1,11 +1,16 @@
-const {
+import {
     SlashCommandBuilder,
     EmbedBuilder,
     AttachmentBuilder,
-} = require("discord.js");
-const path = require("node:path");
-const fs = require("fs");
-const colors = require("../../utils/colors");
+} from "discord.js";
+import path from "node:path";
+import fs from "fs";
+import colors from "../../utils/colors.js";
+import { fileURLToPath } from "node:url";
+
+// Ricostruzione delle variabili globali per ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function generatePhantomText(target, sinInput) {
     const sin = sinInput.toLowerCase();
@@ -85,7 +90,7 @@ function generatePhantomText(target, sinInput) {
     return `${r(intros)}\n${r(accusations)}\n${r(threats)}\n\n**Stanotte, ruberemo il tuo cuore distorto e ti faremo confessare i tuoi crimini con la tua stessa bocca.**`;
 }
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("callingcard")
         .setDescription("Invia una Lettera di Sfida (Calling Card)")

@@ -1,10 +1,10 @@
-const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } = require("discord.js");
-const path = require('node:path');
+import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } from "discord.js";
+import path from "node:path";
 
-const chars = require('../../data/characters'); 
-const colors = require('../../utils/colors');   
+import chars from "../../data/characters.js"; 
+import colors from "../../utils/colors.js";   
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("ship")
         .setDescription("Valuta il legame sociale tra due persone 🎭") // UI description (kept in IT for users)

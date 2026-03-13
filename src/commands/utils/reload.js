@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName("reload")
 		.setDescription("Reloads a command.")
@@ -8,8 +8,10 @@ module.exports = {
 			option
 				.setName("command")
 				.setDescription("The command to reload.")
-				.setRequired(true)
-		).setDefaultMemberPermissions(PermissionFlagsBits.Administrator),	
+				.setRequired(true),
+		)
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+
 	async execute(interaction) {
 		const commandName = interaction.options
 			.getString("command", true)
@@ -18,21 +20,28 @@ module.exports = {
 
 		if (!command) {
 			return interaction.reply(
-				`There is no command with name \`${commandName}\`!`
+				`There is no command with name \`${commandName}\`!`,
 			);
 		}
-		delete require.cache[require.resolve(`./${command.data.name}.js`)];
+
+		// ESM non ha require.cache. Usiamo una query string per forzare il ricaricamento.
+		const fileUrl = `./${command.data.name}.js?update=${Date.now()}`;
 
 		try {
-			const newCommand = require(`./${command.data.name}.js`);
+			// Importazione dinamica asincrona con cache-busting
+			const importedModule = await import(fileUrl);
+
+			// Gestione del default export
+			const newCommand = importedModule.default || importedModule;
+
 			interaction.client.commands.set(newCommand.data.name, newCommand);
 			await interaction.reply(
-				`Command \`${newCommand.data.name}\` was reloaded!`
+				`Command \`${newCommand.data.name}\` was reloaded!`,
 			);
 		} catch (error) {
 			console.error(error);
 			await interaction.reply(
-				`There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``
+				`There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``,
 			);
 		}
 	},

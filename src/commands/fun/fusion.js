@@ -1,9 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-// Assicurati che i percorsi siano corretti rispetto alla tua struttura cartelle
-const tarotDeck = require('../../utils/tarotDeck');
-const colors = require('../../utils/colors');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import tarotDeck from '../../utils/tarotDeck.js';
+import colors from '../../utils/colors.js';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('fusion')
         .setDescription('Esegui una fusione nella Velvet Room usando due utenti come materiali.')

@@ -1,6 +1,6 @@
-const colors = require('../utils/colors');
+import colors from '../utils/colors.js';
 
-module.exports = {
+const characters = {
     igor: {
         name: "Igor",
         arcana: "Il Matto",
@@ -170,3 +170,5 @@ module.exports = {
         color: colors.kasumi 
     }
 };
+
+export default characters;

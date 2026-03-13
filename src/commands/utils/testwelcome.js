@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, Events } = require('discord.js');
+import { SlashCommandBuilder, Events } from 'discord.js';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('testwelcome')
         .setDescription('Simula il benvenuto per testare la grafica'),

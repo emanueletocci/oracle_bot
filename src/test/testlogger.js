@@ -1,5 +1,5 @@
 // Import the logger
-const logger = require('../utils/logger.js');
+import logger from '../utils/logger.js';
 
 console.log("--- 🚀 AVVIO TEST LOGGER ---");
 

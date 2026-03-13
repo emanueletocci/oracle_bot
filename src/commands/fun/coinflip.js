@@ -1,9 +1,14 @@
-const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } = require('discord.js');
-const path = require('node:path');
-const { randomInt } = require('node:crypto');
-const colors = require("../../utils/colors");
+import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
+import path from 'node:path';
+import { randomInt } from 'node:crypto';
+import colors from "../../utils/colors.js";
+import { fileURLToPath } from 'node:url';
 
-module.exports = {
+// Ricostruzione delle variabili globali per ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
     data: new SlashCommandBuilder()
         .setName('coinflip')
         .setDescription('Sfida la sorte nel Metaverso: Ladri Fantasma o Ombre? 🃏'),
@@ -12,7 +17,6 @@ module.exports = {
         // Generating random number ranging from 0 to 1, using system
         const outcome = randomInt(0, 2);
         const isPhantom = outcome === 0;
-
 
         await interaction.reply(`😼${interaction.user}! Tieni pronto il coltello, percepisco qualcosa...*`);
         let resultTitle;

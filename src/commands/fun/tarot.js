@@ -1,8 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const tarotDeck = require('../../utils/tarotDeck'); 
-// Non serve più importare 'colors' qui, perché è già dentro tarotDeck -> characters!
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import tarotDeck from '../../utils/tarotDeck.js'; 
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('tarot')
         .setDescription('Chihaya estrae un Arcano e ti rivela il tuo Confidente.'),
