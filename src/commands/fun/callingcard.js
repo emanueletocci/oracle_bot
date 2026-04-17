@@ -8,7 +8,7 @@ import fs from "fs";
 import colors from "../../utils/colors.js";
 import { fileURLToPath } from "node:url";
 
-// Ricostruzione delle variabili globali per ESM
+// Variable Reconstruction
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
