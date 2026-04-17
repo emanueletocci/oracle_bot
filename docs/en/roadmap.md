@@ -7,15 +7,14 @@ Features related to the bot's engine, music playback, and visual generation.
 * [x] **Core Bot Structure:** Command Handler, Event Handler, and Discord.js setup.
 * [x] **Lofi Radio:** Implementation of the Lo-Fi radio system (`/lofi`).
 * [ ] **Music Streaming:** Enable music streaming from external platforms (e.g., YouTube/Spotify).
-* [ ] **Visual Upgrade (Canvas):** Implement `canvas` or `sharp` to generate dynamic images for `/welcome` and Level-Up cards.
+* [x] **Visual Upgrade (Canvas):** Implement `canvas` or `sharp` to generate dynamic images for `/welcome`.
 
 ## 🎭 Metaverse Activities (Social & Fun)
 
 Commands for user interaction and entertainment.
 
 * [x] **Basic Fun Commands:** Implementation of RNG and interaction commands (`/tarot`, `/ship`, `/fusion`, `/roll`, `/coinflip`).
-* [ ] **All-Out Attack:** dynamic animation command targeting a user.
-* [ ] **Cognitive AI Chat:** Integration with LLM to allow chatting with Oracle.
+* [x] **All-Out Attack:** dynamic animation command targeting a user.
 
 ## 🎰 The Casino (Economy & RPG Expansion)
 
