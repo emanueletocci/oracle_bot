@@ -5,7 +5,7 @@
 import { Events, AttachmentBuilder } from "discord.js";
 import { request } from "undici";
 import colors from "../utils/colors.js";
-import config from "../config.json" with { type: "json" };
+import config from "../../config.json" with { type: "json" };
 import Canvas from "@napi-rs/canvas";
 import path from "path";
 import fs from "fs";

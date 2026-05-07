@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import config from "./config.json" with { type: "json" };
+import config from "../config.json" with { type: "json" };
 import logger from "./utils/logger.js";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { DisTube } from "distube";
