@@ -143,3 +143,4 @@ config.json
 node_modules
 .DS_Store
 original_lofi.mp3
+/.idea

@@ -1,4 +1,5 @@
 import { Events, MessageFlags, Collection } from 'discord.js';
+import logger from '../utils/logger.js';
 
 export default {
     name: Events.InteractionCreate,
@@ -9,11 +10,11 @@ export default {
         const command = client.commands.get(commandName);
 
         if (!command) {
-            console.error(`No command matching ${commandName} was found.`);
+            logger.error(`No command matching ${commandName} was found.`);
             return;
         }
 
-        // --- INIZIO COOLDOWN ---
+        // --- COOLDOWN START ---
         const { cooldowns } = client;
 
         if (!cooldowns.has(command.data.name)) {
@@ -39,12 +40,12 @@ export default {
 
         timestamps.set(interaction.user.id, now);
         setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-        // --- FINE COOLDOWN ---
+        // --- COOLDOWN END ---
 
         try {
             await command.execute(interaction);
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             const errorMessage = {
                 content: "There was an error while executing this command!",
                 flags: MessageFlags.Ephemeral,

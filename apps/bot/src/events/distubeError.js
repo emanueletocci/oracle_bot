@@ -1,50 +1,58 @@
+import logger from "../utils/logger.js";
+
 export default {
 	name: "error",
 	distube: true,
 	execute(...args) {
-		let errorObj = null;
+		let errorObject = null;
 		let targetChannel = null;
 
-		// Ispezioniamo tutti i parametri che DisTube ci ha lanciato
+		// Inspect all parameters emitted by DisTube
 		for (const arg of args) {
 			if (arg instanceof Error) {
-				// Abbiamo trovato l'oggetto errore
-				errorObj = arg;
+				// We found the error object
+				errorObject = arg;
 			} else if (arg && typeof arg.send === "function") {
-				// Abbiamo trovato il canale testuale
+				// We found the text channel
 				targetChannel = arg;
 			} else if (
 				arg &&
 				arg.textChannel &&
 				typeof arg.textChannel.send === "function"
 			) {
-				// Abbiamo trovato la coda, estraiamo il canale al suo interno
+				// We found the queue, so we extract the channel from it
 				targetChannel = arg.textChannel;
 			}
 		}
 
-		// Estraiamo il testo dell'errore (o mettiamo un testo di default se introvabile)
-		const errorTesto =
-			errorObj?.message ||
-			String(errorObj || args[0] || "Anomalia sconosciuta");
+		// Extract the error text (or fall back to a default message if unavailable)
+		const errorMessage =
+			errorObject?.message ||
+			String(errorObject || args[0] || "Unknown error");
 
-		let messaggioDiscord = `❌ Errore durante l'assalto: ${errorTesto}`;
+		let discordMessage = `❌ Errore durante l'assalto: ${errorMessage}`;
 
-		// Protezione anti-crash per il limite caratteri di Discord (2000 caratteri max)
-		if (messaggioDiscord.length > 1950) {
-			messaggioDiscord =
-				"❌ Errore critico! Il log cognitivo è troppo denso. Dettagli salvati nel terminale.";
+		// Prevent crashes caused by Discord's message length limit (2000 characters max)
+		if (discordMessage.length > 1950) {
+			discordMessage =
+				"❌ Errore critico. I dettagli tecnici sono stati salvati nei log.";
 		}
 
-		// Se abbiamo scovato un canale valido, mandiamo l'avviso lì
-		if (targetChannel) {
-			targetChannel.send(messaggioDiscord).catch(console.error);
+		// Log the technical error with full context
+		if (errorObject) {
+			logger.error(`DisTube error event: ${errorObject.message}`);
 		} else {
-			// Altrimenti, stampiamo l'errore in rosso nel terminale senza far crashare il bot
-			console.error(
-				"❌ Errore nel Metaverso (Nessun canale disponibile):",
-				errorObj || args,
-			);
+			logger.error(`DisTube error event received without Error instance: ${JSON.stringify(args)}`);
+		}
+
+		// If we found a valid channel, send the warning there
+		if (targetChannel) {
+			targetChannel.send(discordMessage).catch((sendError) => {
+				logger.error(`Failed to send DisTube error message to channel: ${sendError.message}`);
+			});
+		} else {
+			// Otherwise, log that no valid text channel was available
+			logger.error("DisTube error event could not resolve a valid text channel.");
 		}
 	},
 };

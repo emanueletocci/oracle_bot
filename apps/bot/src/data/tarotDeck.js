@@ -1,5 +1,5 @@
 // File: src/utils/tarotDeck.js
-import chars from '../data/characters.js';
+import chars from './characters.js';
 
 export default [
     { number: 0, char: chars.igor, meaning: "Il potere infinito delle possibilità. Sei libero di plasmare il tuo futuro." },

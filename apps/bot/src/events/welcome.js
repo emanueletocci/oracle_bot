@@ -4,28 +4,28 @@
 // and composes the final message with an attachment.
 import { Events, AttachmentBuilder } from "discord.js";
 import { request } from "undici";
-import colors from "../utils/colors.js";
+import colors from "../data/colors.js";
 import config from "../../config.json" with { type: "json" };
 import Canvas from "@napi-rs/canvas";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import logger from "../utils/logger.js";
 
-// Ricostruzione delle variabili globali per ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // =============================================================================
 // Font registration
 // =============================================================================
-const fontPath = path.join(__dirname, "../assets/fonts/earwig.otf");
+const fontPath = path.join(__dirname, "../../assets/fonts/earwig.otf");
 const fontFamily = fs.existsSync(fontPath) ? "PersonaFont" : "Arial";
 
 if (fontFamily === "PersonaFont") {
     Canvas.GlobalFonts.registerFromPath(fontPath, "PersonaFont");
-    console.debug("[DEBUG] Font Persona 5 registered successfully.");
+    logger.debug("[DEBUG] Font Persona 5 registered successfully.");
 } else {
-    console.warn("[WARN] Font not found. Using Arial fallback.");
+    logger.warn("[WARN] Font not found. Using Arial fallback.");
 }
 
 export default {
@@ -36,7 +36,7 @@ export default {
         // Entry point for the GuildMemberAdd event. `member` is the newly
         // joined guild member. We build an image and post it to the
         // configured channel.
-        console.debug(
+        logger.debug(
             `[DEBUG] GuildMemberAdd event triggered for: ${member.user.tag}`,
         );
 
@@ -44,7 +44,7 @@ export default {
         const channel = member.guild.channels.cache.get(channelId);
 
         if (!channel) {
-            console.error(`[ERROR] Canale con ID ${channelId} non trovato!`);
+            logger.error(`[ERROR] Canale con ID ${channelId} non trovato!`);
             return;
         }
 
@@ -66,6 +66,7 @@ export default {
             const backgroundsFolder = path.join(
                 __dirname,
                 "..",
+                "..",
                 "assets",
                 "images",
                 "backgrounds",
@@ -86,20 +87,20 @@ export default {
                             validImages[Math.floor(Math.random() * validImages.length)];
                         const bgPath = path.join(backgroundsFolder, randomImage);
 
-                        console.debug(`[DEBUG] Selected random background: ${randomImage}`);
+                        logger.debug(`[DEBUG] Selected random background: ${randomImage}`);
 
                         // Draw the chosen background stretched to the canvas.
                         const background = await Canvas.loadImage(bgPath);
                         context.drawImage(background, 0, 0, canvas.width, canvas.height);
                         backgroundLoaded = true;
                     } else {
-                        console.warn("[WARN] No png/jpg images found in folder.");
+                        logger.warn("[WARN] No png/jpg images found in folder.");
                     }
                 } else {
-                    console.warn(`[WARN] Cartella non trovata: ${backgroundsFolder}`);
+                    logger.warn(`[WARN] Folder Not Found: ${backgroundsFolder}`);
                 }
             } catch (err) {
-                console.warn("[WARN] Errore caricamento sfondo:", err.message);
+                logger.warn(`[WARN] Background loading error: ${err.message}`);
             }
 
             // If no background image was loaded, fill with a branded color
@@ -208,7 +209,7 @@ export default {
                 context.strokeStyle = colors.p5_red;
                 context.stroke();
             } catch (err) {
-                console.error("[ERROR] Impossibile caricare avatar utente:", err);
+                logger.error(`[ERROR] Impossibile caricare avatar utente: ${err}`);
             }
 
             // Create an attachment from the canvas PNG buffer and send the
@@ -224,9 +225,9 @@ export default {
                 files: [attachment],
             });
 
-            console.log(`[SUCCESS] Sent welcome for ${member.user.tag}`);
+            logger.info(`[SUCCESS] Sent welcome for ${member.user.tag}`);
         } catch (error) {
-            console.error(`[CRITICAL ERROR]`, error);
+            logger.error(`[CRITICAL ERROR] ${error}`);
         }
     },
 };

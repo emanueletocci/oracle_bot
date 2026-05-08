@@ -1,4 +1,4 @@
-import colors from '../utils/colors.js';
+import colors from './colors.js';
 
 const characters = {
     igor: {

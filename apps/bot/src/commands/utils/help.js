@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import colors from '../../utils/colors.js';
+import colors from '../../data/colors.js';
 
 export default {
     data: new SlashCommandBuilder()

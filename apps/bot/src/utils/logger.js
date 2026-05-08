@@ -18,7 +18,7 @@ const fileFormat = winston.format.printf(({ level, message, timestamp }) => {
 });
 
 const logger = winston.createLogger({
-	level: "info", // Logs everything from 'info' and above (info, warn, error)
+	level: "debug", // Logs everything from 'info' and above (info, warn, error)
 	format: winston.format.combine(
 		winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
 		winston.format.errors({ stack: true }), // Captures the stack trace for errors

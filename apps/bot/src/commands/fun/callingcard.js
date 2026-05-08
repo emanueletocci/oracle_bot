@@ -2,11 +2,13 @@ import {
 	SlashCommandBuilder,
 	EmbedBuilder,
 	AttachmentBuilder,
+	MessageFlags,
 } from "discord.js";
 import path from "node:path";
 import fs from "fs";
-import colors from "../../utils/colors.js";
+import colors from "../../data/colors.js";
 import { fileURLToPath } from "node:url";
+import logger from "../../utils/logger.js";
 
 // Variable Reconstruction
 const __filename = fileURLToPath(import.meta.url);
@@ -28,7 +30,7 @@ function generatePhantomText(target, sinInput) {
 				"voglia",
 				"carnale",
 			],
-			text: `**Sir ${target}, schiavo del piacere.**\nHai trattato le persone come oggetti per il tuo mero divertimento. La tua visione distorta dell'amore ha ferito troppi cuori innocenti.\n\nNon resteremo a guardare.`,
+			text: `**Sir ${target}, schiavo del piacere.**\\nHai trattato le persone come oggetti per il tuo mero divertimento. La tua visione distorta dell'amore ha ferito troppi cuori innocenti.\\n\\nNon resteremo a guardare.`,
 		},
 		{
 			id: "gola",
@@ -41,7 +43,7 @@ function generatePhantomText(target, sinInput) {
 				"sazio",
 				"divorare",
 			],
-			text: `**Sir ${target}, divoratore insaziabile.**\nLa tua fame non conosce fine. Consumi tutto ciò che ti circonda senza lasciare nulla agli altri, riempiendo il vuoto della tua anima con eccessi materiali.\n\nÈ ora di metterti a dieta forzata.`,
+			text: `**Sir ${target}, divoratore insaziabile.**\\nLa tua fame non conosce fine. Consumi tutto ciò che ti circonda senza lasciare nulla agli altri, riempiendo il vuoto della tua anima con eccessi materiali.\\n\\nÈ ora di metterti a dieta forzata.`,
 		},
 		{
 			id: "avarizia",
@@ -56,7 +58,7 @@ function generatePhantomText(target, sinInput) {
 				"avido",
 				"tesoro",
 			],
-			text: `**Sir ${target}, avido mercante d'anime.**\nValuti il denaro e il possesso più della vita umana. Hai calpestato chiunque pur di accrescere il tuo tesoro personale.\n\nTi porteremo via ciò che ritieni più prezioso.`,
+			text: `**Sir ${target}, avido mercante d'anime.**\\nValuti il denaro e il possesso più della vita umana. Hai calpestato chiunque pur di accrescere il tuo tesoro personale.\\n\\nTi porteremo via ciò che ritieni più prezioso.`,
 		},
 		{
 			id: "accidia",
@@ -70,7 +72,7 @@ function generatePhantomText(target, sinInput) {
 				"dormire",
 				"apatico",
 			],
-			text: `**Sir ${target}, prigioniero dell'indifferenza.**\nHai chiuso gli occhi davanti alle ingiustizie, scegliendo la via più facile del non fare nulla. Il tuo disinteresse è un veleno che sta uccidendo chi ti sta intorno.\n\nTi costringeremo ad aprire gli occhi.`,
+			text: `**Sir ${target}, prigioniero dell'indifferenza.**\\nHai chiuso gli occhi davanti alle ingiustizie, scegliendo la via più facile del non fare nulla. Il tuo disinteresse è un veleno che sta uccidendo chi ti sta intorno.\\n\\nTi costringeremo ad aprire gli occhi.`,
 		},
 		{
 			id: "ira",
@@ -85,7 +87,7 @@ function generatePhantomText(target, sinInput) {
 				"incazzato",
 				"esplosivo",
 			],
-			text: `**Sir ${target}, vulcano di rabbia.**\nLa tua collera esplosiva è solo un capriccio infantile. Hai usato la violenza verbale e l'intimidazione per piegare gli altri al tuo volere.\n\nSpegneremo le fiamme della tua follia.`,
+			text: `**Sir ${target}, vulcano di rabbia.**\\nLa tua collera esplosiva è solo un capriccio infantile. Hai usato la violenza verbale e l'intimidazione per piegare gli altri al tuo volere.\\n\\nSpegneremo le fiamme della tua follia.`,
 		},
 		{
 			id: "invidia",
@@ -98,7 +100,7 @@ function generatePhantomText(target, sinInput) {
 				"rosicare",
 				"invidioso",
 			],
-			text: `**Sir ${target}, dagli occhi verdi di gelosia.**\nNon sopporti la luce altrui perché evidenzia le tue ombre. Hai tramato nell'ombra per affossare chi ha successo solo per sentirti migliore.\n\nTi mostreremo quanto sei piccolo.`,
+			text: `**Sir ${target}, dagli occhi verdi di gelosia.**\\nNon sopporti la luce altrui perché evidenzia le tue ombre. Hai tramato nell'ombra per affossare chi ha successo solo per sentirti migliore.\\n\\nTi mostreremo quanto sei piccolo.`,
 		},
 		{
 			id: "superbia",
@@ -113,7 +115,7 @@ function generatePhantomText(target, sinInput) {
 				"dio",
 				"migliore",
 			],
-			text: `**Sir ${target}, re del nulla.**\nGuardi tutti dall'alto in basso dal tuo piedistallo di arroganza. Credi di essere intoccabile e superiore alle regole comuni.\n\nTi faremo scendere dal trono.`,
+			text: `**Sir ${target}, re del nulla.**\\nGuardi tutti dall'alto in basso dal tuo piedistallo di arroganza. Credi di essere intoccabile e superiore alle regole comuni.\\n\\nTi faremo scendere dal trono.`,
 		},
 	];
 
@@ -123,7 +125,7 @@ function generatePhantomText(target, sinInput) {
 	);
 
 	if (foundDefinition) {
-		return `${foundDefinition.text}\n\n**Stanotte, ruberemo il tuo cuore distorto e ti faremo confessare i tuoi crimini con la tua stessa bocca.**`;
+		return `${foundDefinition.text}\\n\\n**Stanotte, ruberemo il tuo cuore distorto e ti faremo confessare i tuoi crimini con la tua stessa bocca.**`;
 	}
 
 	// --- FALLBACK: Random Generator ---
@@ -150,7 +152,7 @@ function generatePhantomText(target, sinInput) {
 
 	const r = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-	return `${r(intros)}\n${r(accusations)}\n${r(threats)}\n\n**Stanotte, ruberemo il tuo cuore distorto e ti faremo confessare i tuoi crimini con la tua stessa bocca.**`;
+	return `${r(intros)}\\n${r(accusations)}\\n${r(threats)}\\n\\n**Stanotte, ruberemo il tuo cuore distorto e ti faremo confessare i tuoi crimini con la tua stessa bocca.**`;
 }
 
 export default {
@@ -183,13 +185,11 @@ export default {
 
 		// --- CHECK FILE EXISTENCE ---
 		if (!fs.existsSync(ccPath) || !fs.existsSync(p5LogoPath)) {
-			console.error(
-				`❌ Errore file mancanti:\nCard: ${ccPath}\nLogo: ${p5LogoPath}`,
-			);
+			logger.error(`Missing required calling card assets. Card path: ${ccPath}. Logo path: ${p5LogoPath}.`);
 			return interaction.reply({
 				content:
 					"❌ **Errore di sistema:** Impossibile trovare le risorse grafiche (Card o Logo).",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 
@@ -218,5 +218,7 @@ export default {
 			embeds: [cardEmbed],
 			files: [ccAttachment, p5LogoAttachment],
 		});
+
+		logger.info(`Calling card command executed successfully for target ${target.id} in guild ${interaction.guildId}.`);
 	},
 };

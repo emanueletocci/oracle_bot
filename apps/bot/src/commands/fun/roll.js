@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
+import logger from '../../utils/logger.js';
 
 export default {
     data: new SlashCommandBuilder()
@@ -8,52 +9,54 @@ export default {
         .addIntegerOption(option =>
             option.setName('facce')
                 .setDescription('Numero di facce del dado (default: 6)')
-                .setMinValue(2) // A die must have at least 2 faces
-                .setMaxValue(100) // Optional limit to prevent huge numbers
+                .setMinValue(2)
+                .setMaxValue(100)
         )
-        // Amount of dice to roll 
+        // Option 2: Number of dice to roll
         .addIntegerOption(option =>
             option.setName('quantita')
                 .setDescription('Numero di dadi da lanciare (default: 1)')
                 .setMinValue(1)
-                .setMaxValue(10) // Cap at 10 to prevent chat spam
+                .setMaxValue(10)
         ),
 
     async execute(interaction) {
-        // Retrieve input values. If null, use defaults (6 faces, 1 die).
+        // Retrieve input values and apply defaults if not provided
         const faces = interaction.options.getInteger('facce') || 6;
         const amount = interaction.options.getInteger('quantita') || 1;
 
-        // Arrays to store individual results and the sum total
-        let results = [];
+        // Store individual roll results and the final total
+        const results = [];
         let total = 0;
 
-        // Loop 'amount' times to simulate rolling multiple dice
+        // Roll the dice the requested number of times
         for (let i = 0; i < amount; i++) {
-            // Math logic: Generates a random integer between 1 and 'faces'
-            const roll = Math.floor(Math.random() * faces) + 1;
-            results.push(roll);
-            total += roll;
+            const rollResult = Math.floor(Math.random() * faces) + 1;
+            results.push(rollResult);
+            total += rollResult;
         }
 
-        // Construct the response string
+        // Build the response message
         let responseMessage = `🎲 **${total}**`;
 
-        // If multiple dice were rolled, append individual results for clarity
-        // Example output: "🎲 15 (Risultati: 5, 4, 6)"
+        // Include individual results when rolling multiple dice
         if (amount > 1) {
             responseMessage += ` (Risultati: ${results.join(', ')})`;
         }
 
-        // Special flair for single d20 rolls (D&D style criticals)
+        // Add special flair for single d20 critical results
         if (faces === 20 && amount === 1) {
             if (total === 20) responseMessage += " 🔥 **CRITICO!** 🔥";
             if (total === 1) responseMessage += " 💀 **FALLIMENTO CRITICO!**";
         }
 
-        // Send the reply to the channel
+        // Send the final response
         await interaction.reply({
             content: `Hai lanciato **${amount}d${faces}**:\n${responseMessage}`
         });
+
+        logger.info(
+            `Roll command executed successfully. guildId=${interaction.guildId} userId=${interaction.user.id} faces=${faces} amount=${amount} total=${total}`
+        );
     },
 };
