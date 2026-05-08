@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 
 export default {
-    // 1. Command Definition
+    // Command Definition
     data: new SlashCommandBuilder()
         .setName('clean')
         .setDescription('Cancella una quantità specifica di messaggi.')
@@ -14,7 +14,7 @@ export default {
         // Security permission: Only Administrators can use this command
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
-    // 2. Execution
+    // Execution
     async execute(interaction) {
         // Retrieve the number input by the user.
         // If nothing is entered, inputAmount will be null.
