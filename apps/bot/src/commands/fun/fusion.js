@@ -113,9 +113,5 @@ export default {
             .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
-
-        logger.info(
-            `Fusion command executed successfully. guildId=${interaction.guildId} userId=${interaction.user.id} material1=${firstUser.id} material2=${secondUser.id} result=${fusedName} accident=${isAccident}`
-        );
     },
 };

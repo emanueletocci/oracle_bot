@@ -1,50 +1,51 @@
+import fs from "node:fs";
+import path from "node:path";
 import winston from "winston";
-import "winston-daily-rotate-file";
-import path from "path";
-import { fileURLToPath } from "url";
+import DailyRotateFile from "winston-daily-rotate-file";
+import { LOGS_DIR } from "./paths.js";
 
-// Reconstruct the global variables for ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const APP_DIR = path.join(LOGS_DIR, "app");
+const ERROR_DIR = path.join(LOGS_DIR, "error");
+const AUDIT_DIR = path.join(LOGS_DIR, "audit");
 
-// Define log format for the Console (colored and simple)
-const consoleFormat = winston.format.printf(({ level, message, timestamp }) => {
-	return `${timestamp} [${level}]: ${message}`;
+fs.mkdirSync(APP_DIR, { recursive: true });
+fs.mkdirSync(ERROR_DIR, { recursive: true });
+fs.mkdirSync(AUDIT_DIR, { recursive: true });
+
+const consoleFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
+	return `${timestamp} [${level}]: ${stack || message}`;
 });
 
-// Define log format for files (no colors, more structured)
-const fileFormat = winston.format.printf(({ level, message, timestamp }) => {
-	return JSON.stringify({ timestamp, level, message });
+const fileFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
+	return `${timestamp} [${level}]: ${stack || message}`;
 });
 
 const logger = winston.createLogger({
-	level: "debug", // Logs everything from 'info' and above (info, warn, error)
+	level: "debug",
 	format: winston.format.combine(
 		winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-		winston.format.errors({ stack: true }), // Captures the stack trace for errors
+		winston.format.errors({ stack: true }),
 	),
 	transports: [
-		// Console: colored for real‑time terminal viewing
 		new winston.transports.Console({
 			format: winston.format.combine(winston.format.colorize(), consoleFormat),
 		}),
 
-		// Rotating file for everything (info + errors)
-		new winston.transports.DailyRotateFile({
-			filename: path.join(__dirname, "../../logs/application-%DATE%.log"),
+		new DailyRotateFile({
+			filename: path.join(APP_DIR, "application-%DATE%.log"),
 			datePattern: "YYYY-MM-DD",
-			zippedArchive: true, // Compresses old logs (.gz) to save space
-			maxSize: "20m", // Rotates if the file exceeds 20MB in a day
-			maxFiles: "14d", // Deletes logs older than 14 days
+			auditFile: path.join(AUDIT_DIR, "application-audit.json"),
+			maxSize: "20m",
+			maxFiles: "14d",
 			format: fileFormat,
 		}),
 
-		// Rotating file ONLY for errors (critical for debugging)
-		new winston.transports.DailyRotateFile({
-			filename: path.join(__dirname, "../../logs/error-%DATE%.log"),
+		new DailyRotateFile({
+			filename: path.join(ERROR_DIR, "error-%DATE%.log"),
 			datePattern: "YYYY-MM-DD",
-			level: "error", // Only errors here
-			zippedArchive: true,
+			level: "error",
+			auditFile: path.join(AUDIT_DIR, "error-audit.json"),
+			maxSize: "20m",
 			maxFiles: "30d",
 			format: fileFormat,
 		}),

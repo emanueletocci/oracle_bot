@@ -7,12 +7,8 @@ import {
 import fs from "fs";
 import path from "path";
 import colors from '../../data/colors.js';
-import { fileURLToPath } from "url";
 import logger from '../../utils/logger.js';
-
-// Reconstruct global variables for ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { SLAPS_DIR } from "../../utils/paths.js";
 
 export default {
     data: new SlashCommandBuilder()
@@ -36,6 +32,7 @@ export default {
                 flags: MessageFlags.Ephemeral,
             });
         }
+
         if (target.id === interaction.client.user.id) {
             logger.warn(`Slap command attempted to attack the bot. userId=${sender.id}`);
             return interaction.reply({
@@ -44,12 +41,12 @@ export default {
             });
         }
 
-        const slapsFolder = path.join(__dirname, "../../../assets/gif/slaps");
+        const slapsFolder = SLAPS_DIR;
 
         if (!fs.existsSync(slapsFolder)) {
             logger.error(`Slap command failed because slap folder does not exist: ${slapsFolder}`);
             return interaction.reply({
-                content: `❌ **Errore Configurazione:** Non trovo la cartella!\\nAssicurati di aver creato: \`src/assets/gif/slaps\``,
+                content: `❌ **Errore Configurazione:** Non trovo la cartella!\\nAssicurati di aver creato: \`assets/gif/slaps\``,
                 flags: MessageFlags.Ephemeral,
             });
         }

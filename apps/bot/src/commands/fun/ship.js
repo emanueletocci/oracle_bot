@@ -3,6 +3,7 @@ import path from "node:path";
 import chars from "../../data/characters.js";
 import colors from "../../data/colors.js";
 import logger from "../../utils/logger.js";
+import { CHARACTERS_DIR } from "../../utils/paths.js";
 
 export default {
     data: new SlashCommandBuilder()
@@ -107,7 +108,7 @@ export default {
         const finalArcana = outcome.char ? outcome.char.arcana : (outcome.arcana || "???");
         const finalEmoji = outcome.char ? outcome.char.emoji : "🃏";
 
-        const finalPath = path.join(process.cwd(), "assets/images/characters", finalImageName);
+        const finalPath = path.join(CHARACTERS_DIR, finalImageName);
         const attachment = new AttachmentBuilder(finalPath, { name: "ship_result.png" });
 
         // --- EMBED CREATION ---
