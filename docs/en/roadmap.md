@@ -32,7 +32,7 @@ The core gamification system based on Persona 5 mechanics.
 
 Advanced tools to maintain order and manage the server.
 
-* [ ] **Basic Moderation Suite:** Comprehensive tools to ensure integrity (`/kick`, `/ban`, `/mute`, `/purge`).
+* [x] **Basic Moderation Suite:** Comprehensive tools to ensure integrity (`/kick`, `/ban`, `/mute`, `/purge`).
 * [ ] **Safe Rooms (Dynamic Voice Channels):** A "Join-to-Create" system for temporary private voice channels.
 * [ ] **Cognitive Backup:** System to save server roles/channels into a JSON/DB file for emergency restoration.
 
