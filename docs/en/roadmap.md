@@ -16,18 +16,6 @@ Commands for user interaction and entertainment.
 * [x] **Basic Fun Commands:** Implementation of RNG and interaction commands (`/tarot`, `/ship`, `/fusion`, `/roll`, `/coinflip`).
 * [x] **All-Out Attack:** dynamic animation command targeting a user.
 
-## 🎰 The Casino (Economy & RPG Expansion)
-
-The core gamification system based on Persona 5 mechanics.
-
-* [ ] **Economy System (Yen):** Virtual currency system where users earn money by being active.
-* [ ] **Phantom Thief Rank (Leveling):** XP system where users start as "Inmates" and rise to "Phantom Thieves".
-* [ ] **Social Stats:** Character statistics (Knowledge, Guts, Proficiency, Kindness, Charm) unlocking specific commands.
-* [ ] **Tanaka's Amazing Commodities (Shop):** A store system to spend Yen on server roles, items, or badges.
-* [ ] **Turn-Based Minigames:** RPG-style battles against Shadows to earn Yen and XP.
-* [ ] **Mementos Requests:** Random mission generator for extra rewards.
-* [ ] **Leaderboards:** Global ranking for Wealth and XP.
-
 ## 🛡️ Palace Security (Moderation & Utility)
 
 Advanced tools to maintain order and manage the server.
