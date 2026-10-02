@@ -3,7 +3,6 @@ import './globals.css'
 export const metadata = {
   title: 'Oracle — One Bot. Endless Chaos.',
   description: 'Oracle is the free, open-source all-in-one Discord bot.',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
