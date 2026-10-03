@@ -41,7 +41,7 @@ The project is evolving to replace the need for multiple bots. Here is the curre
 
 ---
 
-## 🔨 Installation 
+## 🔨 Installation
 
 🚧 Cognitive Blockage Detected. This feature is currently under construction.
 
