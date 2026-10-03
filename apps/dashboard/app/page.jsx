@@ -79,7 +79,7 @@ function Logo() {
 export function Navbar() {
 	const [open, setOpen] = useState(false);
 	return (
-		<header className="nav-wrap">
+		<header className="nav-wrap fixed top-0 w-full z-50 bg-oracle-ink">
 			<nav className="nav" aria-label="Main navigation">
 				<Logo />
 				<button
