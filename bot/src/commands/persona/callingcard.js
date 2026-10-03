@@ -6,10 +6,10 @@ import {
 } from "discord.js";
 import fs from "fs";
 import path from "node:path";
-import colors from "../data/colors.js";
-import { sinDefinitions } from "../data/sins.js";
-import logger from "../utils/logger.js";
-import { IMAGES_DIR } from "../utils/paths.js";
+import colors from "#data/colors.js";
+import { sinDefinitions } from "#data/sins.js";
+import logger from "#utils/logger.js";
+import { IMAGES_DIR } from "#utils/paths.js";
 
 function generatePhantomText(target, sinInput) {
 	const sin = sinInput.toLowerCase();

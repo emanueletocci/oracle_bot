@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-import { LOGS_DIR } from "./paths.js";
+import { LOGS_DIR } from "#utils/paths.js";
 
 const APP_DIR = path.join(LOGS_DIR, "app");
 const ERROR_DIR = path.join(LOGS_DIR, "error");

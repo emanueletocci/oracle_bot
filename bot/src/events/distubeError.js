@@ -1,4 +1,5 @@
-import logger from "../utils/logger.js";
+import logger from "#utils/logger.js";
+import { getGuildTheme } from "#settings/guildSettings.js";
 
 export default {
 	name: "error",
@@ -30,12 +31,12 @@ export default {
 			errorObject?.message ||
 			String(errorObject || args[0] || "Unknown error");
 
-		let discordMessage = `❌ Errore durante l'assalto: ${errorMessage}`;
+		const theme = getGuildTheme(targetChannel?.guildId);
+		let discordMessage = theme.t("music.error", { message: errorMessage });
 
 		// Prevent crashes caused by Discord's message length limit (2000 characters max)
 		if (discordMessage.length > 1950) {
-			discordMessage =
-				"❌ Errore critico. I dettagli tecnici sono stati salvati nei log.";
+			discordMessage = theme.t("music.criticalError");
 		}
 
 		// Log the technical error with full context

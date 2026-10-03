@@ -4,21 +4,18 @@
 // and composes the final message with an attachment.
 import { Events, AttachmentBuilder } from "discord.js";
 import { request } from "undici";
-import colors from "../data/colors.js";
-import config from "../../config.json" with { type: "json" };
+import colors from "#data/colors.js";
+import config from "#config" with { type: "json" };
 import Canvas from "@napi-rs/canvas";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
-import logger from "../utils/logger.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import logger from "#utils/logger.js";
+import { BACKGROUNDS_DIR, FONTS_DIR } from "#utils/paths.js";
 
 // =============================================================================
 // Font registration
 // =============================================================================
-const fontPath = path.join(__dirname, "../../assets/fonts/earwig.otf");
+const fontPath = path.join(FONTS_DIR, "earwig.otf");
 const fontFamily = fs.existsSync(fontPath) ? "PersonaFont" : "Arial";
 
 if (fontFamily === "PersonaFont") {
@@ -63,15 +60,7 @@ export default {
             // Path to optional background images. If the directory exists and
             // contains png/jpg images, one will be chosen at random. Otherwise
             // a solid fallback color is used.
-            const backgroundsFolder = path.join(
-                __dirname,
-                "..",
-                "..",
-                "assets",
-                "images",
-                "backgrounds",
-                "welcome",
-            );
+            const backgroundsFolder = path.join(BACKGROUNDS_DIR, "welcome");
 
             let backgroundLoaded = false;
 

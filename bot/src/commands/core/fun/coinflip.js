@@ -1,71 +1,45 @@
 import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } from "discord.js";
+import fs from "node:fs";
 import path from "node:path";
 import { randomInt } from "node:crypto";
-import colors from "../../data/colors.js";
-import logger from "../../utils/logger.js";
-import { IMAGES_DIR } from "../../utils/paths.js";
+import logger from "#utils/logger.js";
 
 export default {
-    data: new SlashCommandBuilder()
-        .setName("coinflip")
-        .setDescription("Sfida la sorte nel Metaverso: Ladri Fantasma o Ombre? 🃏"),
+	data: new SlashCommandBuilder()
+		.setName("coinflip")
+		.setDescription("Lancia una moneta: testa o croce? 🪙"),
 
-    async execute(interaction) {
-        const outcome = randomInt(0, 2);
-        const isPhantom = outcome === 0;
+	async execute(interaction, { theme }) {
+		const isHeads = randomInt(0, 2) === 0;
+		const side = theme.t(isHeads ? "coinflip.heads" : "coinflip.tails");
 
-        await interaction.reply(
-            `😼 ${interaction.user}! Tieni pronto il coltello, percepisco qualcosa...*`,
-        );
+		// Some themes add a short "suspense" message before the result
+		const pending = theme.t("coinflip.pending", { user: interaction.user });
+		if (pending) await interaction.reply(pending);
 
-        let resultTitle;
-        let resultDescription;
-        let imageName;
-        let embedColor;
+		const embed = new EmbedBuilder()
+			.setTitle(side.title)
+			.setDescription(side.description)
+			.setColor(side.color);
 
-        if (isPhantom) {
-            resultTitle = "🎭 PHANTOM THIEVES WIN! - TESTA";
-            resultDescription =
-                "**The show's over.**\nIl nemico è stato annientato con stile. Vittoria perfetta.";
-            imageName = "coinJoker.png";
-            embedColor = colors.p5_red;
-        } else {
-            resultTitle = "💀 SHADOWS WIN! - CROCE";
-            resultDescription =
-                "**Senti il rumore di catene...**\nIl Mietitore ti ha trovato. Non c'è via di fuga. *Despair.*";
-            imageName = "coinShadow.png";
-            embedColor = colors.shadow_purple;
-        }
+		const files = [];
+		if (side.image) {
+			if (fs.existsSync(side.image)) {
+				const imageName = path.basename(side.image);
+				files.push(new AttachmentBuilder(side.image, { name: imageName }));
+				embed.setThumbnail(`attachment://${imageName}`);
+			}
+			else {
+				logger.warn(`Coinflip image not found: ${side.image}`);
+			}
+		}
 
-        const imagePath = path.join(IMAGES_DIR, "coins", imageName);
+		const payload = { content: null, embeds: [embed], files };
+		if (pending) await interaction.editReply(payload);
+		else await interaction.reply(payload);
 
-        let attachment;
-
-        try {
-            attachment = new AttachmentBuilder(imagePath, { name: imageName });
-        } catch (error) {
-            logger.error(
-                `Failed to create coinflip attachment from path ${imagePath}: ${error.message}`,
-            );
-            return interaction.editReply(
-                "Errore: Non trovo l'immagine della moneta nella cartella assets!",
-            );
-        }
-
-        const embed = new EmbedBuilder()
-            .setTitle(resultTitle)
-            .setDescription(resultDescription)
-            .setColor(embedColor)
-            .setThumbnail(`attachment://${imageName}`);
-
-        await interaction.editReply({
-            content: null,
-            embeds: [embed],
-            files: [attachment],
-        });
-
-        logger.info(
-            `Coinflip command executed successfully for user ${interaction.user.id} with outcome ${isPhantom ? "phantom" : "shadow"}.`,
-        );
-    },
+		logger.info(
+			`Coinflip command executed successfully for user ${interaction.user.id} with outcome ${isHeads ? "heads" : "tails"} (theme=${theme.name}).`,
+		);
+	},
 };

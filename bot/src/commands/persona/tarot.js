@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import tarotDeck from '../data/tarotDeck.js';
-import logger from '../utils/logger.js';
+import tarotDeck from '#data/tarotDeck.js';
+import logger from '#utils/logger.js';
 
 export default {
     data: new SlashCommandBuilder()

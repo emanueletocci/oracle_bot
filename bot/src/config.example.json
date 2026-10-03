@@ -1,0 +1,7 @@
+{
+	"token": "IL_TOKEN_DEL_BOT",
+	"clientId": "ID_DELL_APPLICAZIONE",
+	"guildId": "ID_DEL_SERVER_DI_SVILUPPO",
+	"welcomeChannelId": "ID_DEL_CANALE_DI_BENVENUTO",
+	"defaultTheme": "persona"
+}

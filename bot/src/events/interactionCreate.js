@@ -1,5 +1,6 @@
 import { Events, MessageFlags, Collection } from 'discord.js';
-import logger from '../utils/logger.js';
+import logger from '#utils/logger.js';
+import { getGuildTheme } from '#settings/guildSettings.js';
 
 export default {
     name: Events.InteractionCreate,
@@ -12,6 +13,18 @@ export default {
         if (!command) {
             logger.error(`No command matching ${commandName} was found.`);
             return;
+        }
+
+        // --- THEME / MODULE CHECK ---
+        // Each guild has a theme (persona or neutral). Commands in the
+        // "persona" module only exist inside the Persona theme.
+        const theme = getGuildTheme(interaction.guildId);
+
+        if (command.module === 'persona' && theme.name !== 'persona') {
+            return interaction.reply({
+                content: theme.t('errors.personaOnly'),
+                flags: MessageFlags.Ephemeral,
+            });
         }
 
         // --- COOLDOWN START ---
@@ -43,11 +56,11 @@ export default {
         // --- COOLDOWN END ---
 
         try {
-            await command.execute(interaction);
+            await command.execute(interaction, { theme });
         } catch (error) {
             logger.error(error);
             const errorMessage = {
-                content: "There was an error while executing this command!",
+                content: theme.t('errors.generic'),
                 flags: MessageFlags.Ephemeral,
             };
 
