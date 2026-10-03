@@ -116,6 +116,15 @@ export function Navbar() {
 					>
 						Invite <ArrowUpRight />
 					</a>
+					<a
+						className="nav-cta"
+						href="https://discord.com"
+						target="_blank"
+						rel="noreferrer"
+						onClick={() => setOpen(false)}
+					>
+						Login <ArrowUpRight />
+					</a>
 				</div>
 			</nav>
 		</header>
@@ -264,7 +273,7 @@ export function Mission() {
 						Oracle brings the essentials into one sharp, open-source bot. Free
 						to use, free to inspect, and built for the community.
 					</p>
-					<div className="scribble bg-card p-4 rounded-md" >
+					<div className="scribble bg-card p-4 rounded-md">
 						ONE
 						<br />
 						ORACLE
@@ -461,7 +470,11 @@ export function Footer() {
 				<a href="#features">Features</a>
 				<a href="#commands">Commands</a>
 				<a href="#roadmap">Roadmap</a>
-				<a href="https://github.com/emanueletocci/oracle_bot" target="_blank" rel="noreferrer">
+				<a
+					href="https://github.com/emanueletocci/oracle_bot"
+					target="_blank"
+					rel="noreferrer"
+				>
 					GitHub <ArrowUpRight />
 				</a>
 			</div>
