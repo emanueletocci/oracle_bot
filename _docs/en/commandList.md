@@ -2,43 +2,55 @@
 
 Here is the complete list of commands available in the **Oracle** bot.
 
-### 🎭 Fun
+Commands are grouped in **modules**:
 
-Commands to have fun in the server, strictly Persona 5 themed.
+- **Core**: always available. Their replies follow the server theme (Persona or neutral).
+- **Persona**: available only when the server uses the Persona 5 Royal theme.
 
-| Command | Description |
-| :--- | :--- |
-| `/callingcard` | Sends a **Calling Card** to a specific user. |
-| `/coinflip` | Challenge fate in the Metaverse: Phantom Thieves or Shadows? 🃏 |
-| `/fusion` | Perform a fusion in the **Velvet Room** using two users as materials. |
-| `/roll` | Roll the dice to get a random number. |
-| `/ship` | Evaluate the **Social Link** (affinity) between two people 🎭 |
-| `/slap` | Launch a Persona-style All-Out Attack or slap! 🎭 |
-| `/tarot` | Chihaya draws an Arcana and reveals your **Confidant**. |
+### 🎭 Core · Fun
 
-### 🛡️ Security & Moderation
+| Command     | Description                                                     |
+| ----------- | --------------------------------------------------------------- |
+| `/coinflip` | Flip a coin. With the Persona theme: Phantom Thieves or Shadows? |
+| `/roll`     | Roll one or more dice.                                          |
+| `/ship`     | Evaluate the affinity between two people (Social Link in Persona theme). |
+| `/slap`     | Slap someone (an All-Out Attack in Persona theme).              |
 
-Tools to maintain order within the Metaverse.
+### 🛡️ Core · Moderation
 
-| Command | Description |
-| :--- | :--- |
-| `/clean` | Deletes a specific amount of messages in the chat (Bulk Delete). |
+| Command    | Description                       |
+| ---------- | --------------------------------- |
+| `/ban`     | Ban a user from the server.       |
+| `/banlist` | Show the list of banned users.    |
+| `/kick`    | Kick a user from the server.      |
+| `/unban`   | Remove a ban by user ID.          |
 
-### 🎵 Music
+### 🎵 Core · Music
 
-Music and atmosphere management.
+| Command  | Description                                 |
+| -------- | ------------------------------------------- |
+| `/lofi`  | Manage the 24/7 Lofi radio.                 |
+| `/music` | Play or stop songs from external sources.   |
 
-| Command | Description |
-| :--- | :--- |
-| `/lofi` | Manage the Lofi radio to relax like at **Leblanc**. |
+### 🔧 Core · Utility
 
-### 🔧 Utility & Dev
+| Command  | Description                                           |
+| -------- | ----------------------------------------------------- |
+| `/clean` | Delete a specific amount of messages (Bulk Delete).   |
+| `/help`  | Display the commands available in this server.        |
+| `/info`  | Get information about a user or the server.           |
 
-General utility and bot management commands.
+### 🃏 Persona module
 
-| Command | Description |
-| :--- | :--- |
-| `/help` | Displays the complete list of all available commands. |
-| `/info` | Get detailed information about a user or the server. |
-| `/testwelcome` | Simulates the welcome message to test the graphics/canvas. |
-| `/reload` | Reloads a specific command (Developer Only). |
+| Command        | Description                                                           |
+| -------------- | --------------------------------------------------------------------- |
+| `/callingcard` | Send a **Calling Card** to a specific user.                           |
+| `/fusion`      | Perform a fusion in the **Velvet Room** using two users as materials. |
+| `/tarot`       | Chihaya draws an Arcana and reveals your **Confidant**.               |
+
+### 🛠️ Dev (development server only)
+
+| Command        | Description                                    |
+| -------------- | ---------------------------------------------- |
+| `/reload`      | Reload a command without restarting the bot.   |
+| `/testwelcome` | Simulate the welcome message.                  |

@@ -14,10 +14,18 @@
   "author": "emanuele tocci",
   "type": "module",
   "main": "src/index.js",
+  "imports": {
+    "#config": "./config.json",
+    "#commands/*": "./src/commands/*",
+    "#data/*": "./src/data/*",
+    "#settings/*": "./src/settings/*",
+    "#themes/*": "./src/themes/*",
+    "#utils/*": "./src/utils/*"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "deploy": "node src/scripts/deploy_commands.js",
+    "deploy": "node src/scripts/deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
