@@ -100,7 +100,7 @@ export function Navbar() {
 						Roadmap
 					</a>
 					<a
-						href="https://github.com"
+						href="https://github.com/emanueletocci/oracle_bot"
 						target="_blank"
 						rel="noreferrer"
 						onClick={() => setOpen(false)}
@@ -149,7 +149,7 @@ export function Hero() {
 					</a>
 					<a
 						className="button button-ghost"
-						href="https://github.com"
+						href="https://github.com/emanueletocci/oracle_bot"
 						target="_blank"
 						rel="noreferrer"
 					>
@@ -180,17 +180,17 @@ function DiscordMockup() {
 			<div className="burst burst-two">✦</div>
 			<div className="discord-card">
 				<div className="discord-top">
-					<span className="discord-channel"># general</span>
+					<span className="discord-channel"># 🗼渋谷区┃shibuya</span>
 					<span className="discord-users">● 128 ONLINE</span>
 				</div>
 				<div className="chat-space">
 					<div className="chat-message">
-						<div className="avatar avatar-user">A</div>
+						<div className="avatar avatar-user">E</div>
 						<div>
 							<div className="chat-name">
-								alex <small>today at 11:42 PM</small>
+								Emanuele <small>today at 11:42 PM</small>
 							</div>
-							<p>oracle, set the mood</p>
+							<p>Oracle, set the mood!</p>
 						</div>
 					</div>
 					<div className="chat-message bot-message">
@@ -208,7 +208,7 @@ function DiscordMockup() {
 									<Radio />
 								</div>
 								<div>
-									<strong>midnight in tokyo</strong>
+									<strong>Midnight in Tokyo</strong>
 									<span>Oracle Radio · 24/7</span>
 								</div>
 								<div className="equalizer">
@@ -222,7 +222,7 @@ function DiscordMockup() {
 					</div>
 				</div>
 				<div className="chat-input">
-					<span>Message #general</span>
+					<span>Message #🗼渋谷区┃shibuya</span>
 					<Command />
 				</div>
 				<div className="card-sticker">
@@ -264,7 +264,7 @@ export function Mission() {
 						Oracle brings the essentials into one sharp, open-source bot. Free
 						to use, free to inspect, and built for the community.
 					</p>
-					<div className="scribble">
+					<div className="scribble bg-card p-4 rounded-md" >
 						ONE
 						<br />
 						ORACLE
@@ -436,7 +436,7 @@ export function OpenSource() {
 					</p>
 					<a
 						className="button button-light"
-						href="https://github.com"
+						href="https://github.com/emanueletocci/oracle_bot"
 						target="_blank"
 						rel="noreferrer"
 					>
@@ -461,12 +461,12 @@ export function Footer() {
 				<a href="#features">Features</a>
 				<a href="#commands">Commands</a>
 				<a href="#roadmap">Roadmap</a>
-				<a href="https://github.com" target="_blank" rel="noreferrer">
+				<a href="https://github.com/emanueletocci/oracle_bot" target="_blank" rel="noreferrer">
 					GitHub <ArrowUpRight />
 				</a>
 			</div>
 			<div className="footer-bottom">
-				<span>© 2025 ORACLE PROJECT</span>
+				<span>© 2026 ORACLE PROJECT</span>
 				<span>OPEN SOURCE PROJECT · MADE FOR DISCORD</span>
 			</div>
 		</footer>
