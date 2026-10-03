@@ -6,7 +6,8 @@ import {
 	Circle,
 	Code2,
 	Command,
-	Headphones,
+	BookOpenText,
+	Server,
 	Menu,
 	Radio,
 	ShieldCheck,
@@ -114,7 +115,7 @@ export function Navbar() {
 						rel="noreferrer"
 						onClick={() => setOpen(false)}
 					>
-						Invite <ArrowUpRight />
+						Docs <BookOpenText />
 					</a>
 					<a
 						className="nav-cta"
@@ -123,7 +124,7 @@ export function Navbar() {
 						rel="noreferrer"
 						onClick={() => setOpen(false)}
 					>
-						Login <ArrowUpRight />
+						Hosting <Server />
 					</a>
 				</div>
 			</nav>
@@ -154,7 +155,7 @@ export function Hero() {
 						target="_blank"
 						rel="noreferrer"
 					>
-						Add to Discord <ArrowUpRight />
+						Get Started <ArrowUpRight />
 					</a>
 					<a
 						className="button button-ghost"
