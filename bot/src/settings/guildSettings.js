@@ -5,7 +5,7 @@
 // Only the internals of this file will change then: the rest of the bot
 // already goes through getGuildSettings / setGuildTheme.
 import config from "#config" with { type: "json" };
-import { THEME_NAMES, createTheme } from "#themes/index.js";
+import { THEME_NAMES, createTheme } from "#themes/themeManager.js";
 
 const DEFAULT_THEME = THEME_NAMES.includes(config.defaultTheme)
 	? config.defaultTheme
