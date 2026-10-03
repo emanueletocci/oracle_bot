@@ -25,7 +25,7 @@ Oracle is equipped with a variety of tools to help you navigate the Metaverse. C
 * **🎧 Media:** 24/7 LoFi Radio controls.
 * **🔧 Utility:** Server info and diagnostics.
 
-📜 **[View the Full Command List](docs/en/commandList.md)**
+📜 **[View the Full Command List](_docs/en/commandList.md)**
 
 ---
 
@@ -37,7 +37,7 @@ The project is evolving to replace the need for multiple bots. Here is the curre
 2. **🎭 Fun & Roleplay:** 🚧 *In Progress* (Bringing the Metaverse to chat)
 3. **🛡️ Security Suite:** 📝 *Planned* (Replacing standard moderation bots)
 
-📜 **[View the Full Roadmap](docs/en/roadmap.md)**
+📜 **[View the Full Roadmap](_docs/en/roadmap.md)**
 
 ---
 
