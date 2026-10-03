@@ -1,3 +1,13 @@
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
 # Oracle Discord Bot – Quick Agent Guide
 
 ## 1️⃣ Project layout
@@ -39,19 +49,9 @@ It reads the command definitions and registers them via the Discord API.
 - **Start bot**: `npm start` (runs `node src/index.js`).
 - **Watch for changes**: `npm dev`.
 - **Deploy slash commands**: `npm deploy`.
-- No lint or type‑check scripts are defined; use your editor tools if needed.
 
 ## 6️⃣ Common pitfalls
 - The bot token must be in `config.json`; the file is not committed.
 - When adding a new command, export both `data` (SlashCommandBuilder) and `execute`. Missing either will log a warning.
 - If you change event handlers, ensure they export `{ name, execute }` or `{ name, once, distube, execute }` as expected by `index.js`.
 
-## 7️⃣ Quick reference for agents
-| Task | Typical command | Notes |
-|------|-----------------|-------|
-| Start bot | `node src/index.js` | Ensure config is present |
-| Deploy commands | `node deploy_commands.js` | Requires Discord API token in config |
-| Reload a command (dev) | `./commands/utils/reload.js` via slash `/reload` | Only works if the bot has admin rights |
-
----
-Feel free to copy/paste these snippets into your session. Happy hacking!
