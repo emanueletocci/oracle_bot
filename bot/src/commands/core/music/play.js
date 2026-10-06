@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import logger from "#utils/logger.js";
+import { isLofiActive } from "#utils/audioState.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -26,13 +27,24 @@ export default {
 		const voiceChannel = interaction.member.voice.channel;
 
 		if (!voiceChannel) {
-			return interaction.reply({ content: theme.t("music.notInVoice"), flags: MessageFlags.Ephemeral });
+			return interaction.reply({
+				content: theme.t("music.notInVoice"),
+				flags: MessageFlags.Ephemeral,
+			});
 		}
 
 		const subCommand = interaction.options.getSubcommand();
 		const { distube } = interaction.client;
 
 		if (subCommand === "play") {
+			// The lofi radio is using the voice connection: block the command
+			if (isLofiActive(interaction.guild)) {
+				return interaction.reply({
+					content: theme.t("music.lofiActive"),
+					flags: MessageFlags.Ephemeral,
+				});
+			}
+
 			const query = interaction.options.getString("query");
 			await interaction.reply(theme.t("music.loading", { query }));
 
@@ -42,13 +54,13 @@ export default {
 					member: interaction.member,
 				});
 				await interaction.editReply(theme.t("music.queued", { query }));
-			}
-			catch (error) {
-				logger.error(`Music play failed for query "${query}": ${error.message}`);
+			} catch (error) {
+				logger.error(
+					`Music play failed for query "${query}": ${error.message}`,
+				);
 				await interaction.editReply(theme.t("music.notFound"));
 			}
-		}
-		else if (subCommand === "stop") {
+		} else if (subCommand === "stop") {
 			const queue = distube.getQueue(interaction.guildId);
 
 			if (!queue) {
@@ -59,7 +71,10 @@ export default {
 					return interaction.reply(theme.t("music.leftChannel"));
 				}
 
-				return interaction.reply({ content: theme.t("music.nothingPlaying"), flags: MessageFlags.Ephemeral });
+				return interaction.reply({
+					content: theme.t("music.nothingPlaying"),
+					flags: MessageFlags.Ephemeral,
+				});
 			}
 
 			queue.stop();
