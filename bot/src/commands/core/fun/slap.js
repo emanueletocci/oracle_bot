@@ -7,7 +7,9 @@ import {
 import fs from "node:fs";
 import path from "node:path";
 import logger from "#utils/logger.js";
-import { SLAPS_DIR } from "#utils/paths.js";
+import { GIFS_DIR } from "#utils/paths.js";
+
+const SLAPS_DIR = path.join(GIFS_DIR, "slaps");
 
 export default {
 	data: new SlashCommandBuilder()

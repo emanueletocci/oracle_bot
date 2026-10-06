@@ -10,13 +10,14 @@ import Canvas from "@napi-rs/canvas";
 import path from "path";
 import fs from "fs";
 import logger from "#utils/logger.js";
-import { BACKGROUNDS_DIR, FONTS_DIR } from "#utils/paths.js";
+import { IMAGES_DIR, FONTS_DIR } from "#utils/paths.js";
 
 // =============================================================================
 // Font registration
 // =============================================================================
 const fontPath = path.join(FONTS_DIR, "earwig.otf");
 const fontFamily = fs.existsSync(fontPath) ? "PersonaFont" : "Arial";
+const BACKGROUNDS_DIR = path.join(IMAGES_DIR, "backgrounds");
 
 if (fontFamily === "PersonaFont") {
     Canvas.GlobalFonts.registerFromPath(fontPath, "PersonaFont");

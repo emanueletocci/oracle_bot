@@ -1,4 +1,3 @@
-// File: src/utils/tarotDeck.js
 import chars from '#data/characters.js';
 
 export default [

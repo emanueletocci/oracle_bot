@@ -55,8 +55,5 @@ export default {
             content: `Hai lanciato **${amount}d${faces}**:\n${responseMessage}`
         });
 
-        logger.info(
-            `Roll command executed successfully. guildId=${interaction.guildId} userId=${interaction.user.id} faces=${faces} amount=${amount} total=${total}`
-        );
     },
 };

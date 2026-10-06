@@ -3,9 +3,11 @@
 import path from "node:path";
 import colors from "#data/colors.js";
 import chars from "#data/characters.js";
-import { CHARACTERS_DIR, COINS_DIR, IMAGES_DIR } from "#utils/paths.js";
+import {IMAGES_DIR } from "#utils/paths.js";
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const CHARACTERS_DIR = path.join(IMAGES_DIR, "characters");
+const COINS_DIR = path.join(IMAGES_DIR, "coins");
 
 // Turns a character from data/characters.js into a ship outcome
 const fromChar = (char, message) => ({
