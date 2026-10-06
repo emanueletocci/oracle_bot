@@ -1,7 +1,9 @@
 import { Events, MessageFlags, Collection } from "discord.js";
+import { randomUUID } from "node:crypto";
 import logger from "#utils/logger.js";
 import { getGuildTheme } from "#settings/guildSettings.js";
-import { randomUUID } from "node:crypto";
+
+const DEFAULT_COOLDOWN_SECONDS = 3;
 
 export default {
 	name: Events.InteractionCreate,
@@ -42,9 +44,8 @@ export default {
 
 		const now = Date.now();
 		const timestamps = cooldowns.get(command.data.name);
-		const defaultCooldownDuration = 3;
 		const cooldownAmount =
-			(command.cooldown ?? defaultCooldownDuration) * 1_000;
+			(command.cooldown ?? DEFAULT_COOLDOWN_SECONDS) * 1_000;
 
 		if (timestamps.has(interaction.user.id)) {
 			const expirationTime =
@@ -72,27 +73,26 @@ export default {
 			await command.execute(interaction, { theme });
 			logger.debug(`${ctx} ok in ${Math.round(performance.now() - start)}ms`);
 		} catch (error) {
-			logger.error(
-				`${ctx} fallito dopo ${Math.round(performance.now() - start)}ms`,
-				error,
-			);
+			// Short code shown to the user and written in the log,
+			// so the error can be found quickly when someone reports it.
+			const errorId = randomUUID().slice(0, 8);
+			const ms = Math.round(performance.now() - start);
+			logger.error(`[${errorId}] ${ctx} failed after ${ms}ms`, error);
 
 			const errorMessage = {
-				content: theme.t("errors.generic"),
+				content: `${theme.t("errors.generic")} (code: \`${errorId}\`)`,
 				flags: MessageFlags.Ephemeral,
 			};
-			try {
-				if (interaction.replied || interaction.deferred)
-					await interaction.followUp(errorMessage);
-				else await interaction.reply(errorMessage);
-			} catch {
-				const errorId = randomUUID().slice(0, 8);
-				logger.error(`[${errorId}] /${commandName} fallito`, error);
 
-				const errorMessage = {
-					content: `${theme.t("errors.generic")} (codice: \`${errorId}\`)`,
-					flags: MessageFlags.Ephemeral,
-				};
+			try {
+				if (interaction.replied || interaction.deferred) {
+					await interaction.followUp(errorMessage);
+				} else {
+					await interaction.reply(errorMessage);
+				}
+			} catch {
+				// The interaction has expired: we can't answer anymore,
+				// but the error is already in the log.
 			}
 		}
 	},

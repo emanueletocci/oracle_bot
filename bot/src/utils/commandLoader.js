@@ -7,9 +7,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import logger from "#utils/logger.js";
-import { SRC_DIR } from "#utils/paths.js";
-
-export const COMMANDS_DIR = path.join(SRC_DIR, "commands");
+import { COMMANDS_DIR } from "#utils/paths.js";
 export const MODULES = ["core", "persona", "dev"];
 
 function listCommandFiles(dir) {
