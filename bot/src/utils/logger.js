@@ -12,15 +12,16 @@ fs.mkdirSync(APP_DIR, { recursive: true });
 fs.mkdirSync(ERROR_DIR, { recursive: true });
 fs.mkdirSync(AUDIT_DIR, { recursive: true });
 
-const consoleFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
+// Renders a single log line. Exported so the test suite can verify that both
+// the message and the stack survive formatting (a past bug dropped the message
+// whenever a stack was present).
+export function renderLog({ level, message, timestamp, stack }) {
 	const line = `${timestamp} [${level}]: ${message}`;
 	return stack ? `${line}\n${stack}` : line;
-});
+}
 
-const fileFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
-	const line = `${timestamp} [${level}]: ${message}`;
-	return stack ? `${line}\n${stack}` : line;
-});
+const consoleFormat = winston.format.printf(renderLog);
+const fileFormat = winston.format.printf(renderLog);
 
 const logger = winston.createLogger({
 	level: "debug",

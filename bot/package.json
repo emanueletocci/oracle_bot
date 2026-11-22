@@ -19,6 +19,7 @@
     "#commands/*": "./src/commands/*",
     "#data/*": "./src/data/*",
     "#database/*": "./src/database/*",
+    "#events/*": "./src/events/*",
     "#settings/*": "./src/settings/*",
     "#themes/*": "./src/themes/*",
     "#utils/*": "./src/utils/*"
@@ -27,7 +28,8 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "deploy": "node src/scripts/deploy-commands.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
@@ -45,5 +47,8 @@
     "undici": "^8.2.0",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.1"
   }
 }

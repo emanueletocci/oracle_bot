@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { randomInt } from "node:crypto";
 import logger from "#utils/logger.js";
+import { isRemoteUrl } from "#utils/images.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -24,7 +25,7 @@ export default {
 
 		const files = [];
 		if (side.image) {
-			if (/^https?:\/\//.test(side.image)) {
+			if (isRemoteUrl(side.image)) {
 				// Remote URL: Discord fetches the image itself (no upload).
 				embed.setThumbnail(side.image);
 			}

@@ -11,7 +11,7 @@ import { sinDefinitions } from "#data/sins.js";
 import logger from "#utils/logger.js";
 import { IMAGES_DIR, ASSET_BASE_URL } from "#utils/paths.js";
 
-function generatePhantomText(target, sinInput) {
+export function generatePhantomText(target, sinInput) {
 	const sin = sinInput.toLowerCase();
 
 	const foundDefinition = sinDefinitions.find((def) =>

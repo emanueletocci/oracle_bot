@@ -35,6 +35,7 @@ export default {
 
 	ship: {
 		title: "💞 Test di affinità",
+		arcanaLabel: "Arcano",
 		affinityLabel: "Affinità",
 		rankLabel: "Valutazione",
 		footer: "Solo per divertimento ❤️",
@@ -77,6 +78,7 @@ export default {
 
 	music: {
 		notInVoice: "🎧 Entra in un canale vocale per ascoltare la musica!",
+		lofiActive: "⚠️ La radio lofi sta usando il canale vocale. Usa `/lofi stop` per fermarla prima di avviare la musica.",
 		loading: ({ query }) => `🔎 Caricamento in corso: **${query}**...`,
 		queued: ({ query }) => `✅ Aggiunto alla coda: **${query}**`,
 		notFound: "❌ Impossibile trovare la traccia.",

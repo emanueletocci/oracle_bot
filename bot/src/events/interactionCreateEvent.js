@@ -11,14 +11,16 @@ const DEFAULT_COOLDOWN_SECONDS = 3;
 // error path below always runs, even if the underlying request never ends.
 const COMMAND_TIMEOUT_MS = 60_000;
 
-function withTimeout(promise) {
+// Exported for the test suite.
+export function withTimeout(promise) {
 	let timer;
 	const timeout = new Promise((_, reject) => {
 		timer = setTimeout(
 			() => reject(new Error(`Timed out after ${COMMAND_TIMEOUT_MS}ms`)),
 			COMMAND_TIMEOUT_MS,
 		);
-		timer.unref();
+		// `?.` keeps this working under test fake timers, where the id has no unref.
+		timer.unref?.();
 	});
 
 	return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));

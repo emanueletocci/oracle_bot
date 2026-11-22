@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, MessageFlags } from "discord.js";
 import fs from "node:fs";
 import logger from "#utils/logger.js";
+import { isRemoteUrl } from "#utils/images.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -71,7 +72,7 @@ export default {
 
 		const files = [];
 		if (outcome.image) {
-			if (/^https?:\/\//.test(outcome.image)) {
+			if (isRemoteUrl(outcome.image)) {
 				embed.setThumbnail(outcome.image);
 			}
 			else if (fs.existsSync(outcome.image)) {

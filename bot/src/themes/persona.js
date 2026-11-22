@@ -103,6 +103,7 @@ export default {
 
 	music: {
 		notInVoice: "🎧 Bzz... Segnale debole, Joker! Non posso trasmettere la traccia se non ti connetti. Infiltrati in un canale vocale!",
+		lofiActive: "⚠️⛓️ **Detenuto!** La radio lofi occupa già il canale. Usa `/lofi stop` per zittirla prima della musica!",
 		loading: ({ query }) => `Caricamento in corso per: **${query}**... 🎧`,
 		queued: ({ query }) => `Rotta calcolata per: **${query}**! Preparazione all'assalto. 🎩`,
 		notFound: "❌ Impossibile trovare la traccia. I server cognitivi fanno resistenza!",
