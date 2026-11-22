@@ -6,6 +6,11 @@
   <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExamU0ZTdsYzN5MDN6djA5OG9yczE3YnE1NmEycnZ6eHV6dWRieGgxciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mK2TbSNux5a6fOkxzC/giphy.gif" alt="Oracle System Online" width="600">
 </div>
 
+<div align="center">
+
+> [!WARNING]
+> **Oracle is under active development.** Features may change or break at any time, and the bot is not ready for production servers yet.
+
 ## 🔰 Mission: Rewrite Reality
 
 **Oracle** is a next-gen **All-in-One** Discord bot built with **Discord.js** (Node.js).
@@ -22,22 +27,13 @@ Heavily inspired by Futaba Sakura (*Persona 5 Royal*), Oracle brings the Phantom
 Oracle is equipped with a variety of tools to help you navigate the Metaverse. Commands are divided into categories for ease of use.
 
 * **🎭 Fun:** Tarot readings, fusion, shipping, and RNG interactions.
-* **🎧 Media:** 24/7 LoFi Radio controls.
-* **🔧 Utility:** Server info and diagnostics.
+* **🛡️ Moderation:** Kick, ban, unban and bulk message cleaning.
+* **🎧 Music:** 24/7 LoFi Radio and music streaming from YouTube/SoundCloud.
+* **🔧 Utility:** Server info, diagnostics and the help command.
+
+Commands come in two modules: **core** (always available, adapts to the server theme) and **persona** (unlocked only in servers using the Persona 5 Royal theme).
 
 📜 **[View the Full Command List](_docs/en/commandList.md)**
-
----
-
-## 🗺️ Development Roadmap
-
-The project is evolving to replace the need for multiple bots. Here is the current status:
-
-1. **🎧 24/7 LoFi Radio:** ✅ **ONLINE & STABLE** (Core Feature)
-2. **🎭 Fun & Roleplay:** 🚧 *In Progress* (Bringing the Metaverse to chat)
-3. **🛡️ Security Suite:** 📝 *Planned* (Replacing standard moderation bots)
-
-📜 **[View the Full Roadmap](_docs/en/roadmap.md)**
 
 ---
 

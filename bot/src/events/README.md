@@ -148,7 +148,7 @@ export default {
 
 ## Useful events Oracle does not use (yet)
 
-Some events that could be useful later, especially for the *Security Suite* in the roadmap:
+Some events that could be useful later, especially for a future security suite:
 
 | Event | When it fires | Possible use |
 |---|---|---|
