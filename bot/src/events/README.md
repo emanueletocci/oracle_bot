@@ -78,9 +78,13 @@ export default {
 
 | File | Event | When it fires | What Oracle does |
 |---|---|---|---|
-| `ready.js` | `ClientReady` *(once)* | Once, when the bot has logged in and is ready to work. | Writes `Client ready: logged in as ...` to the log. |
-| `interactionCreate.js` | `InteractionCreate` | Every time a user interacts with the bot: slash commands, buttons, menus, modals... | The heart of the bot. It keeps only slash commands, finds the right command, checks theme and cooldown, runs it, and handles errors. |
-| `welcome.js` | `GuildMemberAdd` | Every time a user joins a server where Oracle is. | Creates a welcome image with Canvas and sends it to the configured channel (`welcomeChannelId`). |
+| `clientReadyEvent.js` | `ClientReady` *(once)* | Once, when the bot has logged in and is ready to work. | Writes `Client ready: logged in as ...` to the log and sets the "Scanning for shadows" activity. |
+| `errorEvent.js` | `Error` | When an unhandled error occurs on the client. | Logs it: the safety net that keeps the bot online. |
+| `interactionCreateEvent.js` | `InteractionCreate` | Every time a user interacts with the bot: slash commands, buttons, menus, modals... | The heart of the bot. It keeps only slash commands, finds the right command, resolves the guild theme from the settings database, blocks Persona commands outside the Persona theme, checks cooldown, runs it, and handles errors with a short error ID. |
+| `guildCreate.js` | `GuildCreate` | When the bot is added to a server. | Creates the guild's settings row with the default theme and logs the new server. |
+| `guildDelete.js` | `GuildDelete` | When the bot is removed from a server. | Deletes the guild's settings row and logs. |
+| `welcomeEvent.js` | `GuildMemberAdd` | Every time a user joins a server where Oracle is. | Creates a welcome image with Canvas and sends it, with a themed text, to the guild's welcome channel (falls back to `welcomeChannelId` in `config.json`). |
+| `voiceStateUpdateEvent.js` | `VoiceStateUpdate` | When someone joins, leaves or moves between voice channels. | Lofi radio: paused while nobody is listening, resumed on rejoin. Music: the queue is stopped and the bot leaves if the channel stays empty for 60 seconds. |
 
 ### DisTube events (`client.distube`)
 
@@ -88,8 +92,8 @@ DisTube, the library that plays music, is **not part of Discord**. It is a separ
 
 | File | Event | When it fires | What Oracle does |
 |---|---|---|---|
-| `distubePlaySong.js` | `playSong` | When a song starts playing. | Posts a "now playing" message in the queue's text channel. |
-| `distubeError.js` | `error` | When DisTube hits an error (song not found, stream stopped...). | Logs the error and warns users in the channel, never going over Discord's 2000-character limit. |
+| `distubePlaySongEvent.js` | `playSong` | When a song starts playing. | Posts a themed "now playing" message in the queue's text channel. |
+| `distubeErrorEvent.js` | `error` | When DisTube hits an error (song not found, stream stopped...). | Logs the error and warns users in the channel with a themed message, never going over Discord's 2000-character limit. |
 
 > **Note:** the `/lofi` command does not use DisTube. It uses `@discordjs/voice` directly, so its events (the player's `Idle` and `error`) are handled inside `commands/core/music/lofi.js`, not here.
 
@@ -102,13 +106,13 @@ Discord does not send the bot *every* event. It only sends events from the categ
 ```js
 intents: [
     GatewayIntentBits.Guilds,           // servers, channels, roles, interactions
-    GatewayIntentBits.GuildMembers,     // members joining/leaving → welcome.js
+    GatewayIntentBits.GuildMembers,     // members joining/leaving → welcomeEvent.js
     GatewayIntentBits.GuildVoiceStates, // who is in which voice channel → music
     GatewayIntentBits.GuildMessages,    // messages in servers
 ],
 ```
 
-If an event never arrives, the first thing to check is the intent. For example, without `GuildMembers` the `GuildMemberAdd` event would never fire and `welcome.js` would stay silent.
+If an event never arrives, the first thing to check is the intent. For example, without `GuildMembers` the `GuildMemberAdd` event would never fire and `welcomeEvent.js` would stay silent.
 
 Some intents are **privileged** and must also be turned on in the [Developer Portal](https://discord.com/developers/applications), under *Bot → Privileged Gateway Intents*. `GuildMembers` is one of them: anyone who self-hosts Oracle must remember to enable it, or the bot will not even start.
 
@@ -118,15 +122,15 @@ Some intents are **privileged** and must also be turned on in the [Developer Por
 
 Almost all handlers are `async` functions. If an error inside a `client` event is not caught, discord.js turns it into an `error` event on the client. **If nothing is listening to the `error` event, Node stops the process and the bot goes offline.**
 
-This is exactly what caused the `Unknown interaction (10062)` crash: an error thrown inside the `catch` block of `interactionCreate.js` was not handled by anything.
+This is exactly what caused the `Unknown interaction (10062)` crash: an error thrown inside the `catch` block of `interactionCreateEvent.js` was not handled by anything.
 
 Two simple rules:
 
 1. Inside every `execute` that does something that can fail (Discord calls, files, network), use `try/catch`. Also be careful with what you do *inside* the `catch`: if that can fail too, it needs its own `try/catch`.
-2. Always keep a global listener as a safety net, so an escaped error gets logged instead of crashing the bot:
+2. Always keep a global listener as a safety net, so an escaped error gets logged instead of crashing the bot. Oracle ships exactly this as `errorEvent.js`:
 
 ```js
-// errorHandler.js
+// errorEvent.js
 import { Events } from "discord.js";
 import logger from "#utils/logger.js";
 
@@ -152,12 +156,9 @@ Some events that could be useful later, especially for a future security suite:
 
 | Event | When it fires | Possible use |
 |---|---|---|
-| `GuildCreate` / `GuildDelete` | The bot is added to or removed from a server. | Logging, setting up the server's settings. |
 | `GuildMemberRemove` | A user leaves the server. | Goodbye messages. |
 | `GuildBanAdd` / `GuildBanRemove` | A user is banned or unbanned (also by hand, not only through Oracle). | Moderation logs. Needs the `GuildModeration` intent. |
 | `MessageDelete` / `MessageUpdate` | A message is deleted or edited. | Moderation logs. Reading the message text needs the privileged `MessageContent` intent. |
-| `VoiceStateUpdate` | Someone joins, leaves or switches a voice channel. | Stopping the lofi radio when the channel is empty. |
 | `ShardDisconnect` / `ShardReconnecting` | The gateway connection drops or is reconnecting. | Finding network problems. |
-| `Error` | An unhandled error on the client. | Safety net against crashes (see above). |
 
 The full list is in the [discord.js documentation](https://discord.js.org/docs/packages/discord.js/main/Events:Enum).
