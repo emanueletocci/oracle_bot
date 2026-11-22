@@ -50,7 +50,7 @@ So to add a new event, you just create a new file in this folder. You don't need
 Each file exports an object with these fields:
 
 | Field | Required | Meaning |
-|---|---|---|
+| --- | --- | --- |
 | `name` | yes | The name of the event to listen to. For Discord events, use the `Events` constants (for example `Events.InteractionCreate`) instead of plain strings, so typos are caught early. |
 | `execute` | yes | The function that runs when the event happens. It receives the event's arguments (for example `interaction`, `member`...). |
 | `once` | no | If `true`, the event is handled only once. Default: `false`. |
@@ -77,7 +77,7 @@ export default {
 ### Discord events (`client`)
 
 | File | Event | When it fires | What Oracle does |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `clientReadyEvent.js` | `ClientReady` *(once)* | Once, when the bot has logged in and is ready to work. | Writes `Client ready: logged in as ...` to the log and sets the "Scanning for shadows" activity. |
 | `errorEvent.js` | `Error` | When an unhandled error occurs on the client. | Logs it: the safety net that keeps the bot online. |
 | `interactionCreateEvent.js` | `InteractionCreate` | Every time a user interacts with the bot: slash commands, buttons, menus, modals... | The heart of the bot. It keeps only slash commands, finds the right command, resolves the guild theme from the settings database, blocks Persona commands outside the Persona theme, checks cooldown, runs it, and handles errors with a short error ID. |
@@ -91,7 +91,7 @@ export default {
 DisTube, the library that plays music, is **not part of Discord**. It is a separate object that sends its own events (song started, queue finished, error...). This is why files with `distube: true` are attached to `client.distube` and not to `client`.
 
 | File | Event | When it fires | What Oracle does |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `distubePlaySongEvent.js` | `playSong` | When a song starts playing. | Posts a themed "now playing" message in the queue's text channel. |
 | `distubeErrorEvent.js` | `error` | When DisTube hits an error (song not found, stream stopped...). | Logs the error and warns users in the channel with a themed message, never going over Discord's 2000-character limit. |
 
@@ -155,7 +155,7 @@ export default {
 Some events that could be useful later, especially for a future security suite:
 
 | Event | When it fires | Possible use |
-|---|---|---|
+| --- | --- | --- |
 | `GuildMemberRemove` | A user leaves the server. | Goodbye messages. |
 | `GuildBanAdd` / `GuildBanRemove` | A user is banned or unbanned (also by hand, not only through Oracle). | Moderation logs. Needs the `GuildModeration` intent. |
 | `MessageDelete` / `MessageUpdate` | A message is deleted or edited. | Moderation logs. Reading the message text needs the privileged `MessageContent` intent. |
