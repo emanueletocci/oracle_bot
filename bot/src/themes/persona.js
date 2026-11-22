@@ -85,6 +85,7 @@ export default {
 	lofi: {
 		notInVoice: "⛓️ **Detenuto!** Che insolenza... Cerchi di ascoltare la musica senza essere in cella? Entra subito in vocale!",
 		alreadyPlaying: "⚠️⛓️ Detenuto! Non vedi che la radio è già attiva? Usa `/lofi stop` se vuoi fermarla.",
+		musicActive: "⚠️⛓️ **Detenuto!** C'è già un assalto musicale in corso: usa `/music stop` per ordinare la ritirata!",
 		started: ({ member }) => `🐱 **Ehi ${member}!** Basta combattere per oggi. Ascolta questa Lofi e rilassati!`,
 		notConnected: "❌⛓️ **Detenuto!** Che insolenza... Non vedi che il bot non è connesso a nessun canale vocale?",
 		stopped: "🛑 **Radio spenta.** Il bot è tornato al Leblanc.",
@@ -100,5 +101,18 @@ export default {
 		stopped: "Missione annullata. Ritiro strategico dal canale vocale! Il bot è tornato al Leblanc. 💨",
 		nowPlaying: ({ name, duration }) => `🎵 **Take Over!** Infiltrazione riuscita. In riproduzione: \`${name}\` - \`${duration}\``,
 		error: ({ message }) => `❌ Errore durante l'assalto: ${message}`,
+	},
+
+	welcome: {
+		message: ({ member }) => `Benvenuto nei Phantom Thieves, ${member}! 🎭`,
+	},
+
+	theme: {
+		listTitle: "🎭 Apparenze cognitive del Metaverso",
+		listActive: ({ current }) => `Forma attuale del Metaverso: **${current}**`,
+		listAvailable: ({ list }) => `Apparenze disponibili: ${list}`,
+		setDone: ({ name }) => `🎭 **Riscrittura della realtà completata!** Nuova apparenza: **${name}**`,
+		resetDone: ({ name }) => `🎭 La realtà è tornata alla sua forma originale: **${name}**`,
+		invalid: "❌ Questa apparenza non esiste nel Metaverso. Verifica con `/theme list`.",
 	},
 };

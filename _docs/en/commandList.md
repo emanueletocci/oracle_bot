@@ -39,6 +39,7 @@ Commands are grouped in **modules**:
 | `/clean` | Delete a specific amount of messages (Bulk Delete).   |
 | `/help`  | Display the commands available in this server.        |
 | `/info`  | Get information about a user or the server.           |
+| `/theme` | View or change the bot theme of this server (admins).   |
 
 ### 🃏 Persona module
 

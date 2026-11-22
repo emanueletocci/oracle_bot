@@ -35,3 +35,17 @@ export const MUSIC_DIR = path.join(ASSETS_DIR, "music");
 // LOGS
 // -----------------------------------------------------------------------------
 export const LOGS_DIR = path.join(ROOT_DIR, "logs");
+
+// -----------------------------------------------------------------------------
+// DATA (written at runtime)
+// -----------------------------------------------------------------------------
+// Everything the bot writes while running (SQLite database, and later the
+// theme packs) lives under one directory, so a Docker deployment only needs
+// to mount a single volume. Override it with the ORACLE_DATA_DIR environment
+// variable; the default keeps local development identical to today (files
+// inside the repository folder).
+export const DATA_DIR = process.env.ORACLE_DATA_DIR
+	? path.resolve(process.env.ORACLE_DATA_DIR)
+	: ROOT_DIR;
+
+export const DATABASE_PATH = path.join(DATA_DIR, "data", "oracle.db");

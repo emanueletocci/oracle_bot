@@ -6,6 +6,7 @@ import { Events, AttachmentBuilder } from "discord.js";
 import { request } from "undici";
 import colors from "#data/colors.js";
 import config from "#config" with { type: "json" };
+import { getGuildSettings, getGuildTheme } from "#settings/guildSettings.js";
 import Canvas from "@napi-rs/canvas";
 import path from "path";
 import fs from "fs";
@@ -38,7 +39,10 @@ export default {
             `[DEBUG] GuildMemberAdd event triggered for: ${member.user.tag}`,
         );
 
-        const channelId = config.welcomeChannelId;
+        // The welcome channel is configured per guild; until an admin sets
+        // one (phase 2), it falls back to the global channel in config.json.
+        const { welcomeChannelId } = getGuildSettings(member.guild.id);
+        const channelId = welcomeChannelId ?? config.welcomeChannelId;
         const channel = member.guild.channels.cache.get(channelId);
 
         if (!channel) {
@@ -203,15 +207,17 @@ export default {
             }
 
             // Create an attachment from the canvas PNG buffer and send the
-            // welcome message. Keep the content localized (Italian in this
-            // project) but the image annotations and code comments remain in
-            // English for developer clarity.
+            // welcome message. The text comes from the guild's theme, so it
+            // matches the server's style (Phantom Thieves with the Persona
+            // theme, a neutral greeting otherwise).
             const attachment = new AttachmentBuilder(await canvas.encode("png"), {
                 name: "welcome.png",
             });
 
+            const theme = getGuildTheme(member.guild.id);
+
             await channel.send({
-                content: `Benvenuto nei Phantom Thieves, ${member}!`,
+                content: theme.t("welcome.message", { member }),
                 files: [attachment],
             });
 

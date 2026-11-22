@@ -68,6 +68,7 @@ export default {
 	lofi: {
 		notInVoice: "🎧 Entra in un canale vocale per ascoltare la radio!",
 		alreadyPlaying: "⚠️ La radio è già attiva. Usa `/lofi stop` per fermarla.",
+		musicActive: "⚠️ La musica sta usando il canale vocale. Usa `/music stop` prima di gestire la radio.",
 		started: ({ member }) => `🎶 **${member}**, la radio lofi è partita. Rilassati!`,
 		fileMissing: "❌ File audio della radio non trovato.",
 		notConnected: "❌ Il bot non è connesso a nessun canale vocale.",
@@ -85,5 +86,18 @@ export default {
 		nowPlaying: ({ name, duration }) => `🎵 In riproduzione: \`${name}\` - \`${duration}\``,
 		error: ({ message }) => `❌ Errore di riproduzione: ${message}`,
 		criticalError: "❌ Errore critico. I dettagli tecnici sono stati salvati nei log.",
+	},
+
+	welcome: {
+		message: ({ member }) => `Benvenuto nel server, ${member}! 🎉`,
+	},
+
+	theme: {
+		listTitle: "🎨 Temi disponibili",
+		listActive: ({ current }) => `Tema attivo in questo server: **${current}**`,
+		listAvailable: ({ list }) => `Disponibili: ${list}`,
+		setDone: ({ name }) => `✅ Tema aggiornato: **${name}**`,
+		resetDone: ({ name }) => `✅ Tema ripristinato al predefinito: **${name}**`,
+		invalid: "❌ Questo tema non esiste. Usa `/theme list` per vederli tutti.",
 	},
 };
