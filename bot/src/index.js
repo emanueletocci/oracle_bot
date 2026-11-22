@@ -25,6 +25,9 @@ const client = new Client({
 		GatewayIntentBits.GuildVoiceStates,
 		GatewayIntentBits.GuildMessages,
 	],
+	// One retry only: with the default (3), a stalled upload keeps the
+	// interaction hanging for minutes with zero feedback for the user.
+	rest: { retries: 1, timeout: 15_000 },
 });
 
 client.commands = new Collection();

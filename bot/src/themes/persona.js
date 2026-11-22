@@ -32,13 +32,13 @@ export default {
 			title: "🎭 PHANTOM THIEVES WIN! - TESTA",
 			description: "**The show's over.**\nIl nemico è stato annientato con stile. Vittoria perfetta.",
 			color: colors.p5_red,
-			image: path.join(COINS_DIR, "coinJoker.png"),
+			image: path.join(COINS_DIR, "coinJoker.webp"),
 		},
 		tails: {
 			title: "💀 SHADOWS WIN! - CROCE",
 			description: "**Senti il rumore di catene...**\nIl Mietitore ti ha trovato. Non c'è via di fuga. *Despair.*",
 			color: colors.shadow_purple,
-			image: path.join(COINS_DIR, "coinShadow.png"),
+			image: path.join(COINS_DIR, "coinShadow.webp"),
 		},
 	},
 
@@ -60,7 +60,7 @@ export default {
 					arcana: "THE JOLLY",
 					emoji: "🃏",
 					color: colors.p5_red,
-					image: path.join(IMAGES_DIR, "callingCard.png"),
+					image: path.join(IMAGES_DIR, "callingCard.webp"),
 				};
 			}
 			if (percent < 15) return fromChar(chars.takemi, "💉 Questa relazione è tossica. Vi serve una visita medica urgente.");

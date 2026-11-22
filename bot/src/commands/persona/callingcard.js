@@ -70,8 +70,8 @@ export default {
 		const target = interaction.options.getUser("target");
 		const sin = interaction.options.getString("peccato");
 
-		const hatImagePath = path.join(IMAGES_DIR, "hat.png");
-		const callingCardImagePath = path.join(IMAGES_DIR, "callingCard.png");
+		const hatImagePath = path.join(IMAGES_DIR, "hat.webp");
+		const callingCardImagePath = path.join(IMAGES_DIR, "callingCard.webp");
 
 		if (!fs.existsSync(callingCardImagePath) || !fs.existsSync(hatImagePath)) {
 			logger.error(`Missing required calling card assets. Card path: ${callingCardImagePath}. Logo path: ${hatImagePath}.`);
@@ -83,10 +83,10 @@ export default {
 		}
 
 		const ccAttachment = new AttachmentBuilder(callingCardImagePath, {
-			name: "callingCard.png",
+			name: "callingCard.webp",
 		});
 		const p5LogoAttachment = new AttachmentBuilder(hatImagePath, {
-			name: "hat.png",
+			name: "hat.webp",
 		});
 
 		const finalDescription = generatePhantomText(target, sin);
@@ -96,10 +96,10 @@ export default {
 			.setTitle("TAKE YOUR HEART 🔥")
 			.setAuthor({
 				name: "I Ladri Fantasma di Cuori",
-				iconURL: "attachment://hat.png",
+				iconURL: "attachment://hat.webp",
 			})
 			.setDescription(finalDescription)
-			.setImage("attachment://callingCard.png")
+			.setImage("attachment://callingCard.webp")
 			.setFooter({ text: "Dacci il tuo cuore." })
 			.setTimestamp();
 

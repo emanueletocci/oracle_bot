@@ -5,6 +5,25 @@ import { getGuildTheme } from "#settings/guildSettings.js";
 
 const DEFAULT_COOLDOWN_SECONDS = 3;
 
+// Hard cap on how long a command may take. Some failure modes (e.g. a REST
+// upload that stalls and never settles) would otherwise leave the user with
+// a frozen interaction and no feedback at all: with this race, the normal
+// error path below always runs, even if the underlying request never ends.
+const COMMAND_TIMEOUT_MS = 60_000;
+
+function withTimeout(promise) {
+	let timer;
+	const timeout = new Promise((_, reject) => {
+		timer = setTimeout(
+			() => reject(new Error(`Timed out after ${COMMAND_TIMEOUT_MS}ms`)),
+			COMMAND_TIMEOUT_MS,
+		);
+		timer.unref();
+	});
+
+	return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 export default {
 	name: Events.InteractionCreate,
 	async execute(interaction) {
@@ -70,7 +89,7 @@ export default {
 		const ctx = `/${commandName} user=${interaction.user.id} guild=${interaction.guildId}`;
 
 		try {
-			await command.execute(interaction, { theme });
+			await withTimeout(command.execute(interaction, { theme }));
 			logger.debug(`${ctx} ok in ${Math.round(performance.now() - start)}ms`);
 		} catch (error) {
 			// Short code shown to the user and written in the log,
