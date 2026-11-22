@@ -13,11 +13,13 @@ fs.mkdirSync(ERROR_DIR, { recursive: true });
 fs.mkdirSync(AUDIT_DIR, { recursive: true });
 
 const consoleFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
-	return `${timestamp} [${level}]: ${stack || message}`;
+	const line = `${timestamp} [${level}]: ${message}`;
+	return stack ? `${line}\n${stack}` : line;
 });
 
 const fileFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
-	return `${timestamp} [${level}]: ${stack || message}`;
+	const line = `${timestamp} [${level}]: ${message}`;
+	return stack ? `${line}\n${stack}` : line;
 });
 
 const logger = winston.createLogger({
