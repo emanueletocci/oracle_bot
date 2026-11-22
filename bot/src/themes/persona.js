@@ -3,11 +3,21 @@
 import path from "node:path";
 import colors from "#data/colors.js";
 import chars from "#data/characters.js";
-import {IMAGES_DIR } from "#utils/paths.js";
+import { IMAGES_DIR, ASSET_BASE_URL } from "#utils/paths.js";
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const CHARACTERS_DIR = path.join(IMAGES_DIR, "characters");
 const COINS_DIR = path.join(IMAGES_DIR, "coins");
+
+// When a CDN base URL is configured, images are referenced by remote URL and
+// Discord fetches them server-side (the bot never uploads them). This keeps
+// image commands working even on slow or unreliable uplinks.
+const assetUrl = (rel) =>
+	ASSET_BASE_URL ? `${ASSET_BASE_URL}/${rel}` : path.join(IMAGES_DIR, rel);
+const coinUrl = (rel) =>
+	ASSET_BASE_URL ? `${ASSET_BASE_URL}/coins/${rel}` : path.join(COINS_DIR, rel);
+const characterUrl = (rel) =>
+	ASSET_BASE_URL ? `${ASSET_BASE_URL}/characters/${rel}` : path.join(CHARACTERS_DIR, rel);
 
 // Turns a character from data/characters.js into a ship outcome
 const fromChar = (char, message) => ({
@@ -15,7 +25,7 @@ const fromChar = (char, message) => ({
 	arcana: char.arcana,
 	emoji: char.emoji,
 	color: char.color,
-	image: path.join(CHARACTERS_DIR, char.image),
+	image: characterUrl(char.image),
 });
 
 export default {
@@ -32,13 +42,13 @@ export default {
 			title: "🎭 PHANTOM THIEVES WIN! - TESTA",
 			description: "**The show's over.**\nIl nemico è stato annientato con stile. Vittoria perfetta.",
 			color: colors.p5_red,
-			image: path.join(COINS_DIR, "coinJoker.webp"),
+			image: coinUrl("coinJoker.webp"),
 		},
 		tails: {
 			title: "💀 SHADOWS WIN! - CROCE",
 			description: "**Senti il rumore di catene...**\nIl Mietitore ti ha trovato. Non c'è via di fuga. *Despair.*",
 			color: colors.shadow_purple,
-			image: path.join(COINS_DIR, "coinShadow.webp"),
+			image: coinUrl("coinShadow.webp"),
 		},
 	},
 
@@ -60,7 +70,7 @@ export default {
 					arcana: "THE JOLLY",
 					emoji: "🃏",
 					color: colors.p5_red,
-					image: path.join(IMAGES_DIR, "callingCard.webp"),
+					image: assetUrl("callingCard.webp"),
 				};
 			}
 			if (percent < 15) return fromChar(chars.takemi, "💉 Questa relazione è tossica. Vi serve una visita medica urgente.");

@@ -24,7 +24,11 @@ export default {
 
 		const files = [];
 		if (side.image) {
-			if (fs.existsSync(side.image)) {
+			if (/^https?:\/\//.test(side.image)) {
+				// Remote URL: Discord fetches the image itself (no upload).
+				embed.setThumbnail(side.image);
+			}
+			else if (fs.existsSync(side.image)) {
 				const imageName = path.basename(side.image);
 				files.push(new AttachmentBuilder(side.image, { name: imageName }));
 				embed.setThumbnail(`attachment://${imageName}`);

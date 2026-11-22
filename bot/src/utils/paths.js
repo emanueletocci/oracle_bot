@@ -49,3 +49,14 @@ export const DATA_DIR = process.env.ORACLE_DATA_DIR
 	: ROOT_DIR;
 
 export const DATABASE_PATH = path.join(DATA_DIR, "data", "oracle.db");
+
+// -----------------------------------------------------------------------------
+// REMOTE ASSETS (CDN)
+// -----------------------------------------------------------------------------
+// Base URL for the static images referenced by themes. When set, commands
+// embed images by URL and Discord fetches them server-side (the bot never
+// uploads them — useful on slow or unreliable uplinks). Defaults to jsDelivr
+// serving this repository's assets. Set ORACLE_ASSET_BASE_URL to an empty
+// string to fall back to local file attachments.
+export const ASSET_BASE_URL = process.env.ORACLE_ASSET_BASE_URL ??
+	"https://cdn.jsdelivr.net/gh/emanueletocci/oracle_bot@main/bot/assets/images";

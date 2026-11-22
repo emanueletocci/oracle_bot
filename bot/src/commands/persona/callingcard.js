@@ -9,7 +9,7 @@ import path from "node:path";
 import colors from "#data/colors.js";
 import { sinDefinitions } from "#data/sins.js";
 import logger from "#utils/logger.js";
-import { IMAGES_DIR } from "#utils/paths.js";
+import { IMAGES_DIR, ASSET_BASE_URL } from "#utils/paths.js";
 
 function generatePhantomText(target, sinInput) {
 	const sin = sinInput.toLowerCase();
@@ -70,11 +70,18 @@ export default {
 		const target = interaction.options.getUser("target");
 		const sin = interaction.options.getString("peccato");
 
-		const hatImagePath = path.join(IMAGES_DIR, "hat.webp");
-		const callingCardImagePath = path.join(IMAGES_DIR, "callingCard.webp");
+		// Images are referenced by remote URL when a CDN base is configured
+		// (Discord fetches them server-side); otherwise local attachments.
+		const useRemote = Boolean(ASSET_BASE_URL);
+		const hatImage = useRemote
+			? `${ASSET_BASE_URL}/hat.webp`
+			: path.join(IMAGES_DIR, "hat.webp");
+		const callingCardImage = useRemote
+			? `${ASSET_BASE_URL}/callingCard.webp`
+			: path.join(IMAGES_DIR, "callingCard.webp");
 
-		if (!fs.existsSync(callingCardImagePath) || !fs.existsSync(hatImagePath)) {
-			logger.error(`Missing required calling card assets. Card path: ${callingCardImagePath}. Logo path: ${hatImagePath}.`);
+		if (!useRemote && (!fs.existsSync(callingCardImage) || !fs.existsSync(hatImage))) {
+			logger.error(`Missing required calling card assets. Card path: ${callingCardImage}. Logo path: ${hatImage}.`);
 			return interaction.reply({
 				content:
 					"❌ **Errore di sistema:** Impossibile trovare le risorse grafiche (Card o Logo).",
@@ -82,12 +89,16 @@ export default {
 			});
 		}
 
-		const ccAttachment = new AttachmentBuilder(callingCardImagePath, {
-			name: "callingCard.webp",
-		});
-		const p5LogoAttachment = new AttachmentBuilder(hatImagePath, {
-			name: "hat.webp",
-		});
+		const files = [];
+		let hatRef = hatImage;
+		let cardRef = callingCardImage;
+
+		if (!useRemote) {
+			files.push(new AttachmentBuilder(callingCardImage, { name: "callingCard.webp" }));
+			files.push(new AttachmentBuilder(hatImage, { name: "hat.webp" }));
+			hatRef = "attachment://hat.webp";
+			cardRef = "attachment://callingCard.webp";
+		}
 
 		const finalDescription = generatePhantomText(target, sin);
 
@@ -96,17 +107,17 @@ export default {
 			.setTitle("TAKE YOUR HEART 🔥")
 			.setAuthor({
 				name: "I Ladri Fantasma di Cuori",
-				iconURL: "attachment://hat.webp",
+				iconURL: hatRef,
 			})
 			.setDescription(finalDescription)
-			.setImage("attachment://callingCard.webp")
+			.setImage(cardRef)
 			.setFooter({ text: "Dacci il tuo cuore." })
 			.setTimestamp();
 
 		await interaction.reply({
 			content: `📩 **Lettera di Sfida inviata a ${target}!**`,
 			embeds: [cardEmbed],
-			files: [ccAttachment, p5LogoAttachment],
+			files,
 		});
 
 		logger.info(

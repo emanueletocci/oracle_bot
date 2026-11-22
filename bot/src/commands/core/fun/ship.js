@@ -71,7 +71,10 @@ export default {
 
 		const files = [];
 		if (outcome.image) {
-			if (fs.existsSync(outcome.image)) {
+			if (/^https?:\/\//.test(outcome.image)) {
+				embed.setThumbnail(outcome.image);
+			}
+			else if (fs.existsSync(outcome.image)) {
 				files.push(new AttachmentBuilder(outcome.image, { name: "ship_result.png" }));
 				embed.setThumbnail("attachment://ship_result.png");
 			}
