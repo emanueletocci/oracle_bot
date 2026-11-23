@@ -3,3 +3,4 @@ node_modules
 config.json
 logs/
 bot/data/
+bot/assets/bin/

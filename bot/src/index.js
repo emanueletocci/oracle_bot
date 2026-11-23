@@ -4,9 +4,12 @@ import { pathToFileURL } from "node:url";
 
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { DisTube } from "distube";
-import { YouTubePlugin } from "@distube/youtube";
 import { DirectLinkPlugin } from "@distube/direct-link";
-import { SoundCloudPlugin } from "@distube/soundcloud";
+import { YouTubePlugin as YtdlCorePlugin } from "@distube/youtube";
+// yt-dlp: more robust than ytdl-core against YouTube format changes.
+// CommonJS module, so take the plugin off the default export.
+import ytdlpPkg from "@distube/yt-dlp";
+const YtDlpPlugin = ytdlpPkg.YtDlpPlugin;
 
 import config from "#config" with { type: "json" };
 import logger from "#utils/logger.js";
@@ -33,14 +36,24 @@ const client = new Client({
 client.commands = new Collection();
 client.cooldowns = new Collection();
 
-client.distube = new DisTube(client, {
+// SoundCloud is excluded on purpose: its shared links resolve to DRM-protected
+// HLS streams ("skd://..." AES keys) that ffmpeg cannot open, which breaks
+// playback (exit code 183) before YouTube gets a chance. YouTube + direct
+// links cover essentially all song sources.
+const distubeOptions = {
 	emitNewSongOnly: true,
 	plugins: [
 		new DirectLinkPlugin(),
-		new SoundCloudPlugin(),
-		new YouTubePlugin(),
+		new YtdlCorePlugin(),
+		new YtDlpPlugin(),
 	],
-});
+};
+
+if (fs.existsSync("/usr/bin/ffmpeg")) {
+	distubeOptions.ffmpeg = { path: "/usr/bin/ffmpeg" };
+}
+
+client.distube = new DisTube(client, distubeOptions);
 
 // -----------------------------------------------------------------------------
 // COMMANDS

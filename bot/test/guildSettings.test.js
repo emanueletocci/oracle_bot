@@ -72,9 +72,10 @@ describe("guildSettings (SQLite)", () => {
 			.map((row) => row.name);
 
 		expect(tables).toContain("guild_settings");
+		expect(tables).toContain("guild_radio_stations");
 		expect(tables).toContain("schema_migrations");
 
 		const count = db.prepare("SELECT COUNT(*) AS c FROM schema_migrations").get();
-		expect(count.c).toBe(1);
+		expect(count.c).toBe(2);
 	});
 });

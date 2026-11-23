@@ -92,6 +92,18 @@ export default {
 		]),
 	},
 
+	radio: {
+		notInVoice: "⛓️ **Detenuto!** Vuoi ascoltare la radio senza essere in cella? Entra in un canale vocale!",
+		alreadyMusic: "⚠️⛓️ **Detenuto!** L'assalto musicale occupa già il canale: `/music stop` prima di accendere la radio.",
+		alreadyPlaying: "⚠️⛓️ **Detenuto!** La radio sta già trasmettendo da questo covo.",
+		started: ({ member, station }) => `📻 **${member}** ha sintonizzato **${station}**! Il Leblanc approva. 🎭`,
+		stopped: "🛑 **Trasmissione interrotta.** Il bot torna al Leblanc.",
+		searchTitle: ({ query }) => `📻 Frequenze trovate per “${query}”`,
+		searchNoResults: ({ query }) =>
+			`❌ Nessuna frequenza per **${query}**. Il segnale è stato intercettato.`,
+		selectionExpired: "❌ Questa lista è già stata bruciata: usa di nuovo `/radio play`.",
+	},
+
 	lofi: {
 		notInVoice: "⛓️ **Detenuto!** Che insolenza... Cerchi di ascoltare la musica senza essere in cella? Entra subito in vocale!",
 		alreadyPlaying: "⚠️⛓️ Detenuto! Non vedi che la radio è già attiva? Usa `/lofi stop` se vuoi fermarla.",

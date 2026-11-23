@@ -1,6 +1,6 @@
 ## 🃏 Command List
 
-Here is the complete list of commands available in the **Oracle** bot (19 total).
+Here is the complete list of commands available in the **Oracle** bot (29 total).
 
 Commands are grouped in **modules**:
 
@@ -27,13 +27,15 @@ Commands are grouped in **modules**:
 | `/banlist` | — | Ban members | Show the list of banned users. |
 | `/kick` | `target`, `reason` | Kick members | Kick a user from the server. |
 | `/unban` | `userid`, `reason` | Ban members | Remove a ban by user ID. |
+| `/role` | `add <target> <role>`, `remove <target> <role>` | Manage roles | Add or remove a role from a user. |
 
 ### 🎵 Core · Music
 
 | Command | Subcommands | Description |
 | ------- | ----------- | ----------- |
 | `/lofi` | `play`, `stop` | Manage the 24/7 Lofi radio. Pauses automatically when nobody is listening. |
-| `/music` | `play <query>`, `stop` | Play or stop songs from external sources (YouTube, SoundCloud, direct links). |
+| `/music` | `play <query>`, `stop`, `join`, `queue`, `nowplaying`, `skip`, `pause`, `resume`, `volume <level>`, `loop`, `shuffle`, `seek <seconds>`, `remove <position>` | Play and control songs from external sources (YouTube, direct links). |
+| `/radio` | `play <station>`, `stop`, `list`, `save <name> <url>`, `remove <name>` | Play 24/7 radio stations. `play` resolves the name in one step: built-in/saved exact match, otherwise a worldwide search on radio-browser.info (e.g. "kiss kiss"). A clear match plays immediately, several candidates show a numbered button picker. `save`/`remove` need admin. |
 
 The two systems share the bot's voice connection and never run together: starting one blocks the other.
 
@@ -44,6 +46,14 @@ The two systems share the bot's voice connection and never run together: startin
 | `/clean` | `amount` (max 100) | Administrator | Delete a specific amount of messages (bulk delete). |
 | `/help` | — | — | Display the commands available in this server. |
 | `/info` | `user <target>`, `server` | — | Get information about a user or the server. |
+| `/avatar` | `target` (optional) | — | Show a user's avatar. |
+| `/banner` | `target` (optional) | — | Show a user's banner. |
+| `/emoji` | `emoji` | — | Enlarge a custom emoji. |
+| `/ping` | — | — | Show the bot's latency. |
+| `/uptime` | — | — | Show how long the bot has been online. |
+| `/stats` | — | — | Show bot statistics. |
+| `/serverinfo` | — | — | Show information about the server. |
+| `/roleinfo` | `role` | — | Show information about a role. |
 | `/theme` | `list`, `set <name>`, `reset` | Manage server | View or change the bot theme of this server. Changes are persisted in the SQLite database and survive restarts. |
 
 ### 🃏 Persona module

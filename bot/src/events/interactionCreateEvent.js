@@ -2,6 +2,11 @@ import { Events, MessageFlags, Collection } from "discord.js";
 import { randomUUID } from "node:crypto";
 import logger from "#utils/logger.js";
 import { getGuildTheme } from "#settings/guildSettings.js";
+import {
+	startRadio,
+	getCandidates,
+	clearCandidates,
+} from "#commands/core/music/radio.js";
 
 const DEFAULT_COOLDOWN_SECONDS = 3;
 
@@ -29,6 +34,17 @@ export function withTimeout(promise) {
 export default {
 	name: Events.InteractionCreate,
 	async execute(interaction) {
+		// Handle radio selection buttons. When a /radio play shows a list, the
+		// buttons carry a "radio_select:<index>" customId and payload stashed
+		// on the client.
+		if (interaction.isButton()) {
+			const customId = interaction.customId;
+			if (customId?.startsWith("radio_select:")) {
+				await handleRadioButton(interaction, customId);
+				return;
+			}
+		}
+
 		if (!interaction.isChatInputCommand()) return;
 
 		const { client, commandName } = interaction;
@@ -118,3 +134,53 @@ export default {
 		}
 	},
 };
+
+// Handles a radio selection button (customId "radio_select:<index>"). Looks up
+// the candidate list stored on the client for this guild and starts playback.
+async function handleRadioButton(interaction, customId) {
+	const index = Number(customId.slice("radio_select:".length));
+	const guildId = interaction.guildId;
+	const theme = getGuildTheme(guildId);
+
+	const entry = getCandidates(interaction.client, guildId);
+	const station = entry?.stations?.[index];
+
+	await interaction.deferUpdate();
+
+	if (!station) {
+		await interaction
+			.followUp({
+				content: theme.t("radio.selectionExpired"),
+				flags: MessageFlags.Ephemeral,
+			})
+			.catch(() => {});
+		return;
+	}
+
+	const result = await startRadio(interaction, station);
+
+	if (!result.ok) {
+		await interaction
+			.followUp({
+				content: theme.t(`radio.${result.reason}`),
+				flags: MessageFlags.Ephemeral,
+			})
+			.catch(() => {});
+		return;
+	}
+
+	// Replace the picker with the confirmation so the buttons cannot be used
+	// twice (the radio is already playing in that guild).
+	await interaction
+		.editReply({
+			embeds: [],
+			components: [],
+			content: theme.t("radio.started", {
+				member: interaction.member,
+				station: result.stationName,
+			}),
+		})
+		.catch(() => {});
+
+	clearCandidates(interaction.client, guildId);
+}

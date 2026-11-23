@@ -37,6 +37,18 @@ const MIGRATIONS = [
 			);
 		`,
 	},
+	{
+		version: 2,
+		name: "guild_radio_stations",
+		sql: `
+			CREATE TABLE guild_radio_stations (
+				guild_id TEXT NOT NULL,
+				name     TEXT NOT NULL,
+				url      TEXT NOT NULL,
+				PRIMARY KEY (guild_id, name)
+			);
+		`,
+	},
 ];
 
 db.exec(`

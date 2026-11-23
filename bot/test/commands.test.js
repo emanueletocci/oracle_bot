@@ -61,9 +61,11 @@ describe("loadCommands — smoke test", () => {
 
 		[
 			"coinflip", "ship", "roll", "slap",
-			"ban", "kick", "unban", "banlist",
-			"lofi", "music",
+			"ban", "kick", "unban", "banlist", "role",
+			"lofi", "music", "radio",
 			"clean", "help", "info", "theme",
+			"avatar", "banner", "emoji", "ping", "uptime",
+			"stats", "serverinfo", "roleinfo",
 			"callingcard", "fusion", "tarot",
 			"reload", "testwelcome",
 		].forEach((name) => expect(names).toContain(name));
