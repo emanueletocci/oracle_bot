@@ -30,7 +30,18 @@ const client = new Client({
 	],
 	// One retry only: with the default (3), a stalled upload keeps the
 	// interaction hanging for minutes with zero feedback for the user.
-	rest: { retries: 1, timeout: 15_000 },
+	rest: {
+		retries: 1,
+		timeout: 15_000,
+		// Several dependencies ship their own undici copy (6 for @discordjs/rest,
+		// 7/8 for distube and ytdl-core) and all of them share one global
+		// dispatcher through Symbol.for("undici.globalDispatcher.1"). When the
+		// newer copy creates it, REST dispatches through undici 8, which rejects
+		// Node's FormData: every file upload dies with "body must be a FormData
+		// created by this undici package instance" (/slap, welcome images).
+		// Global fetch keeps FormData and the request in the same implementation.
+		makeRequest: fetch,
+	},
 });
 
 client.commands = new Collection();
